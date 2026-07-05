@@ -269,24 +269,44 @@
     if (!resultLabel || !resultValue) return;
 
     if (calcState.offer.length === 0 && calcState.request.length === 0) {
-      resultLabel.textContent = "Add fruits to both sides";
+      resultLabel.innerHTML = '<span class="result-icon">&#128200;</span> Add fruits to both sides';
       resultValue.textContent = "";
       resultValue.className = "calc-result-value result-neutral";
     } else {
       var diff = totalOffer - totalRequest;
+      var larger = Math.max(totalOffer, totalRequest);
+      var pct = larger > 0 ? Math.round((Math.min(totalOffer, totalRequest) / larger) * 100) : 0;
       if (diff > 0) {
-        resultLabel.textContent = "You are overpaying by:";
+        resultLabel.innerHTML = '<span class="result-icon">&#128563;</span> You overpay by:';
         resultValue.textContent = formatNumber(diff);
         resultValue.className = "calc-result-value result-loss";
+        if (pct < 50) {
+          resultLabel.innerHTML = '<span class="result-icon">&#128565;</span> Big loss! You overpay by:';
+        }
+        resultLabel.innerHTML += ' <span class="result-ratio">(' + pct + '%)</span>';
       } else if (diff < 0) {
-        resultLabel.textContent = "You are gaining profit:";
+        resultLabel.innerHTML = '<span class="result-icon">&#128293;</span> Profit:';
         resultValue.textContent = formatNumber(Math.abs(diff));
         resultValue.className = "calc-result-value result-profit";
+        if (pct < 50) {
+          resultLabel.innerHTML = '<span class="result-icon">&#127881;</span> Huge profit!';
+        }
+        resultLabel.innerHTML += ' <span class="result-ratio">(' + pct + '%)</span>';
       } else {
-        resultLabel.textContent = "Fair trade!";
+        resultLabel.innerHTML = '<span class="result-icon">&#9989;</span> Fair trade!';
         resultValue.textContent = "Equal value";
         resultValue.className = "calc-result-value result-even";
       }
+      var bar = $("#resultBar");
+      if (!bar) {
+        bar = document.createElement("div");
+        bar.id = "resultBar";
+        bar.className = "result-bar";
+        resultValue.parentNode.insertBefore(bar, resultValue.nextSibling);
+      }
+      var offerPct = larger > 0 ? Math.round((totalOffer / larger) * 100) : 50;
+      var requestPct = larger > 0 ? Math.round((totalRequest / larger) * 100) : 50;
+      bar.innerHTML = '<div class="result-bar-track"><div class="result-bar-fill result-bar-offer" style="width:' + offerPct + '%"></div><div class="result-bar-fill result-bar-request" style="width:' + requestPct + '%"></div></div>';
     }
 
     var chatBtn = $("#postTradeToChatBtn");

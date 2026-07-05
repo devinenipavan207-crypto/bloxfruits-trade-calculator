@@ -1,24 +1,24 @@
 /* ===========================================================
-   bloxfruits fruit index.com — Complete Styles
+   blox fruits trade calculator — Complete Styles
    =========================================================== */
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #0a0a14;
-  --bg-2: #0f0f1e;
-  --surface: rgba(20, 20, 40, 0.85);
-  --surface-2: rgba(30, 30, 60, 0.7);
-  --border: rgba(139, 92, 246, 0.1);
-  --border-strong: rgba(139, 92, 246, 0.2);
-  --text: #e8ecf1;
-  --text-dim: #9498b0;
-  --text-mute: #5a6480;
-  --accent: #8b5cf6;
+  --bg: #080812;
+  --bg-2: #0c0c1a;
+  --surface: rgba(16, 16, 36, 0.9);
+  --surface-2: rgba(24, 24, 52, 0.7);
+  --border: rgba(139, 92, 246, 0.12);
+  --border-strong: rgba(139, 92, 246, 0.25);
+  --text: #e2e8f0;
+  --text-dim: #8892b0;
+  --text-mute: #556080;
+  --accent: #7c3aed;
   --accent-2: #06b6d4;
-  --accent-grad: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+  --accent-grad: linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%);
   --accent-grad-2: linear-gradient(135deg, #a78bfa 0%, #22d3ee 100%);
-  --danger: #f43f5e;
+  --danger: #ef4444;
   --success: #10b981;
   --warning: #f59e0b;
   --r-common: #6b7196;
@@ -89,7 +89,7 @@ body.theme-light .site-header { background: rgba(240,239,250,0.7); backdrop-filt
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .brand { display: flex; align-items: center; gap: 12px; }
-.brand-logo { display:block; flex-shrink:0; filter:drop-shadow(0 4px 16px rgba(139,92,246,0.45)); transition:transform 0.3s ease; }
+.brand-logo { display:block; flex-shrink:0; filter:drop-shadow(0 4px 16px rgba(124,58,237,0.5)); transition:transform 0.3s ease; }
 .brand-logo:hover { transform:scale(1.1) rotate(-5deg); }
 .brand-title { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
 .accent { background: var(--accent-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -596,6 +596,14 @@ body.theme-light .site-header { background: rgba(240,239,250,0.7); backdrop-filt
 }
 
 /* Result */
+.result-icon { margin-right: 4px; }
+.result-ratio { font-size: 11px; opacity: 0.7; font-weight: 400; }
+.result-bar { margin-top: 8px; width: 100%; }
+.result-bar-track { display: flex; height: 6px; border-radius: 4px; overflow: hidden; background: rgba(255,255,255,0.05); }
+.result-bar-fill { transition: width 0.3s ease; }
+.result-bar-offer { background: var(--danger); border-radius: 4px 0 0 4px; }
+.result-bar-request { background: var(--success); border-radius: 0 4px 4px 0; }
+
 .calc-result {
   padding: 10px 14px; border-radius: 10px;
   background: rgba(24,24,48,0.6);

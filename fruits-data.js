@@ -1,5 +1,5 @@
 var FRUITS_META = {
-  LAST_UPDATED: "2026-06-09T12:00:00Z"
+  LAST_UPDATED: "2026-07-04T12:00:00Z"
 };
 
 var FRUITS = [
@@ -43,13 +43,13 @@ var FRUITS = [
 
   // ==================== LEGENDARY (11) ====================
   { name: "Quake",    rarity: "legendary", value: 2000000,  perm: 55000000,   demand: "medium", trend: "stable", glow: "#9b59b6", anim: "quake",  img: "Quake_Fruit.png",    beli: 1000000, robux: 1500, type: "Natural" },
-  { name: "Buddha",   rarity: "legendary", value: 15000000, perm: 350000000,  demand: "high",   trend: "down",   glow: "#f39c12", anim: "glow",   img: "Buddha_Fruit.png",   beli: 1200000, robux: 1650, type: "Beast" },
+  { name: "Buddha",   rarity: "legendary", value: 12000000, perm: 335000000,  demand: "high",   trend: "down",   glow: "#f39c12", anim: "glow",   img: "Buddha_Fruit.png",   beli: 1200000, robux: 1650, type: "Beast" },
   { name: "Love",     rarity: "legendary", value: 2700000,  perm: 75000000,   demand: "medium", trend: "stable", glow: "#e84393", anim: "heart",  img: "Love_Fruit.png",     beli: 1300000, robux: 1700, type: "Natural" },
   { name: "Creation", rarity: "legendary", value: 2500000,  perm: 70000000,   demand: "medium", trend: "stable", glow: "#00cec9", anim: "glow",   img: "Creation_Fruit.png", beli: 1400000, robux: 1750, type: "Natural" },
   { name: "Spider",   rarity: "legendary", value: 3300000,  perm: 95000000,   demand: "medium", trend: "stable", glow: "#8e44ad", anim: "web",    img: "Spider_Fruit.png",   beli: 1500000, robux: 1800, type: "Natural" },
   { name: "Sound",    rarity: "legendary", value: 2500000,  perm: 300000000,  demand: "medium", trend: "stable", glow: "#00cec9", anim: "wave",   img: "Sound_Fruit.png",    beli: 1700000, robux: 1900, type: "Natural" },
   { name: "Phoenix",  rarity: "legendary", value: 2800000,  perm: 350000000,  demand: "medium", trend: "stable", glow: "#e17055", anim: "fire",   img: "Phoenix_Fruit.png",  beli: 1800000, robux: 2000, type: "Beast" },
-  { name: "Portal",   rarity: "legendary", value: 10000000,  perm: 220000000,  demand: "high",   trend: "up",     glow: "#00b894", anim: "portal", img: "Portal_Fruit.png",   beli: 1900000, robux: 2000, type: "Natural" },
+  { name: "Portal",   rarity: "legendary", value: 6000000,  perm: 190000000,  demand: "high",   trend: "up",     glow: "#00b894", anim: "portal", img: "Portal_Fruit.png",   beli: 1900000, robux: 2000, type: "Natural" },
   // --- Portal Skins ---
   { name: "Divine Portal",      rarity: "limited", value: 430000000,   perm: 0, demand: "extreme", trend: "up",    glow: "#f1c40f", anim: "portal", img: "Divine_Portal_Fruit.png", beli: 0,  robux: 0, type: "Limited" },
   { name: "Lightning",rarity: "legendary", value: 60000000,  perm: 485000000,  demand: "high", trend: "stable", glow: "#fdcb6e", anim: "lightning", img: "Lightning_Fruit.png", beli: 2100000, robux: 2100, type: "Elemental" },
@@ -68,29 +68,29 @@ var FRUITS = [
 
   // ==================== MYTHICAL (17) ====================
   { name: "Dragon (West)",  rarity: "mythical", value: 1450000000, perm: 2900000000, demand: "extreme", trend: "up",     glow: "#e74c3c", anim: "dragon",  img: "Dragon_(West)_Fruit.png",  beli: 15000000, robux: 5000, type: "Beast" },
-  { name: "Dragon (East)",  rarity: "mythical", value: 1160000000, perm: 2900000000, demand: "extreme", trend: "up",     glow: "#2ecc71", anim: "dragon",  img: "Dragon_(East)_Fruit.png",  beli: 15000000, robux: 5000, type: "Beast" },
+  { name: "Dragon (East)",  rarity: "mythical", value: 1300000000, perm: 2900000000, demand: "extreme", trend: "up",     glow: "#2ecc71", anim: "dragon",  img: "Dragon_(East)_Fruit.png",  beli: 15000000, robux: 5000, type: "Beast" },
   // --- Dragon Skins ---
-  { name: "Ember Dragon",       rarity: "limited", value: 3970000000,  perm: 0, demand: "extreme", trend: "up",    glow: "#e67e22", anim: "dragon", img: "Ember_Dragon_Fruit_(West).png",  beli: 0,  robux: 0, type: "Limited" },
+  { name: "Ember Dragon",       rarity: "limited", value: 7640000000,  perm: 0, demand: "extreme", trend: "up",    glow: "#e67e22", anim: "dragon", img: "Ember_Dragon_Fruit_(West).png",  beli: 0,  robux: 0, type: "Limited" },
   { name: "Eclipse Dragon",     rarity: "limited", value: 9000000000,  perm: 0, demand: "extreme", trend: "up",    glow: "#6c5ce7", anim: "dragon", img: "Dragon_(West)_Eclipse.png",      beli: 0,  robux: 0, type: "Limited" },
   { name: "Blood Moon Dragon",  rarity: "limited", value: 4000000000,  perm: 0, demand: "extreme", trend: "up",    glow: "#e74c3c", anim: "dragon", img: "Dragon_(West)_Blood_Moon.png",   beli: 0,  robux: 0, type: "Limited" },
   { name: "Phoenix Sky Dragon", rarity: "limited", value: 3500000000,  perm: 0, demand: "extreme", trend: "stable", glow: "#e17055", anim: "dragon", img: "Dragon_(West)_Phoenix_Sky.png",  beli: 0,  robux: 0, type: "Limited" },
   { name: "Violet Night Dragon",rarity: "limited", value: 3000000000,  perm: 0, demand: "extreme", trend: "stable", glow: "#8e44ad", anim: "dragon", img: "Dragon_(West)_Violet_Night.png", beli: 0,  robux: 0, type: "Limited" },
   { name: "Kitsune",    rarity: "mythical", value: 290000000,  perm: 2320000000, demand: "extreme", trend: "stable", glow: "#6c5ce7", anim: "kitsune", img: "Kitsune_Fruit.png",    beli: 8000000,  robux: 4000, type: "Beast" },
-  { name: "Empyrean",   rarity: "mythical", value: 2960000000, perm: 5000000000, demand: "extreme", trend: "up",    glow: "#fd79a8", anim: "kitsune", img: "Empyrean_Fruit.png",   beli: 0,         robux: 0,    type: "Beast" },
+  { name: "Empyrean",   rarity: "mythical", value: 2960000000, perm: 0, demand: "extreme", trend: "up",    glow: "#fd79a8", anim: "kitsune", img: "Empyrean_Fruit.png",   beli: 0,         robux: 0,    type: "Beast" },
   // --- Empyrean Skin ---
   { name: "Galaxy Empyrean",    rarity: "limited", value: 5350000000,  perm: 0, demand: "extreme", trend: "up",    glow: "#6c5ce7", anim: "kitsune", img: "Empyrean_Fruit_(Galaxy).png",  beli: 0,  robux: 0, type: "Limited" },
   { name: "Yeti",       rarity: "mythical", value: 160000000,  perm: 1740000000, demand: "high",    trend: "stable", glow: "#74b9ff", anim: "frost",   img: "Yeti_Fruit.png",      beli: 5000000,  robux: 3000, type: "Beast" },
-  { name: "Fiend",      rarity: "mythical", value: 495000000,  perm: 1000000000, demand: "high",    trend: "stable", glow: "#6c5ce7", anim: "void",    img: "Fiend_Fruit.png",     beli: 0,         robux: 0,    type: "Beast" },
+  { name: "Fiend",      rarity: "mythical", value: 1070000000, perm: 0, demand: "extreme", trend: "stable", glow: "#6c5ce7", anim: "void",    img: "Fiend_Fruit.png",     beli: 0,         robux: 0,    type: "Beast" },
   { name: "Control", rarity: "mythical", value: 140000000,  perm: 1400000000, demand: "high",    trend: "stable", glow: "#00cec9", anim: "portal",  img: "Control_Fruit.png", beli: 9000000,  robux: 4000, type: "Natural" },
   { name: "Gas",     rarity: "mythical", value: 75000000,   perm: 1610000000, demand: "high",    trend: "up",     glow: "#00b894", anim: "toxic",   img: "Gas_Fruit.png",     beli: 3200000,  robux: 2500, type: "Elemental" },
   { name: "Tiger",    rarity: "mythical", value: 60000000,   perm: 1750000000, demand: "high",    trend: "stable", glow: "#e17055", anim: "pounce",  img: "Tiger_Fruit.png",    beli: 5000000,  robux: 3000, type: "Beast" },
-  { name: "Werewolf", rarity: "mythical", value: 800000000,  perm: 1600000000, demand: "high",    trend: "stable", glow: "#2d3436", anim: "shake",   img: "Werewolf_Fruit.png", beli: 0,         robux: 0,    type: "Beast" },
+  { name: "Werewolf", rarity: "mythical", value: 1120000000, perm: 0, demand: "extreme", trend: "stable", glow: "#2d3436", anim: "shake",   img: "Werewolf_Fruit.png", beli: 0,         robux: 0,    type: "Beast" },
   { name: "Dough",   rarity: "mythical", value: 30000000,   perm: 1450000000, demand: "high",    trend: "stable", glow: "#fdcb6e", anim: "bounce",  img: "Dough_Fruit.png",   beli: 2800000,  robux: 2400, type: "Elemental" },
-  { name: "T-Rex",   rarity: "mythical", value: 20000000,   perm: 320000000,  demand: "high",    trend: "stable", glow: "#d63031", anim: "stomp",   img: "T-Rex_Fruit.png",   beli: 2700000,  robux: 2350, type: "Beast" },
-  { name: "Mammoth", rarity: "mythical", value: 10000000,   perm: 1450000000, demand: "medium",  trend: "down",   glow: "#b2bec3", anim: "stomp",   img: "Mammoth_Fruit.png", beli: 2700000,  robux: 2350, type: "Beast" },
+  { name: "T-Rex",   rarity: "mythical", value: 20000000,   perm: 1400000000, demand: "high",    trend: "stable", glow: "#d63031", anim: "stomp",   img: "T-Rex_Fruit.png",   beli: 2700000, robux: 2350, type: "Beast" },
+  { name: "Mammoth", rarity: "mythical", value: 10000000,   perm: 1000000000, demand: "medium",  trend: "down",   glow: "#b2bec3", anim: "stomp",   img: "Mammoth_Fruit.png", beli: 2700000, robux: 2350, type: "Beast" },
   { name: "Spirit",  rarity: "mythical", value: 10000000,   perm: 1000000000, demand: "medium",  trend: "stable", glow: "#9b59b6", anim: "spirit",  img: "Spirit_Fruit.png",  beli: 3400000,  robux: 2550, type: "Natural" },
   { name: "Venom",   rarity: "mythical", value: 10000000,   perm: 1000000000, demand: "medium",  trend: "stable", glow: "#6c5ce7", anim: "toxic",   img: "Venom_Fruit.png",   beli: 3000000,  robux: 2450, type: "Natural" },
-  { name: "Shadow",  rarity: "mythical", value: 10000000,    perm: 180000000,  demand: "medium",  trend: "stable", glow: "#2d3436", anim: "void",    img: "Shadow_Fruit.png",  beli: 2900000,  robux: 2425, type: "Natural" },
+  { name: "Shadow",  rarity: "mythical", value: 6000000,     perm: 180000000,  demand: "medium",  trend: "stable", glow: "#2d3436", anim: "void",    img: "Shadow_Fruit.png",  beli: 2900000,  robux: 2425, type: "Natural" },
   { name: "Gravity", rarity: "mythical", value: 5500000,    perm: 170000000,  demand: "medium",  trend: "down",   glow: "#636e72", anim: "float",   img: "Gravity_Fruit.png", beli: 2500000,  robux: 2300, type: "Natural" },
 
   // ==================== GAMEPASSES / SCROLLS ====================
@@ -102,7 +102,9 @@ var FRUITS = [
   { name: "2x Mastery",       rarity: "gamepass", value: 240000000,  perm: 0, demand: "high",    trend: "stable", glow: "#e17055", anim: "pulse", img: "BadgeMasteryx2.png",     beli: 0,  robux: 450,  type: "Gamepass" },
   { name: "2x Money",         rarity: "gamepass", value: 240000000,  perm: 0, demand: "high",    trend: "stable", glow: "#f1c40f", anim: "pulse", img: "BadgeMoneyx2.png",       beli: 0,  robux: 450,  type: "Gamepass" },
   { name: "2x Boss Drops",    rarity: "gamepass", value: 140000000,  perm: 0, demand: "medium",  trend: "stable", glow: "#e74c3c", anim: "pulse", img: "BadgeBossDrops.png",     beli: 0,  robux: 350,  type: "Gamepass" },
-  { name: "Fast Boats",       rarity: "gamepass", value: 140000000,  perm: 0, demand: "medium",  trend: "stable", glow: "#3498db", anim: "float", img: "BadgeBoats.png",         beli: 0,  robux: 350,  type: "Gamepass" }
+  { name: "Fast Boats",       rarity: "gamepass", value: 140000000,  perm: 0, demand: "medium",  trend: "stable", glow: "#3498db", anim: "float", img: "BadgeBoats.png",         beli: 0,  robux: 350,  type: "Gamepass" },
+  { name: "Dragon Token",     rarity: "limited",  value: 3000000000, perm: 0, demand: "medium",  trend: "stable", glow: "#f59e0b", anim: "dragon", img: "Dragon_Token.png",        beli: 0,  robux: 0,   type: "Limited" },
+  { name: "Perm Dragon Token",rarity: "limited",  value: 6500000000, perm: 0, demand: "high",    trend: "stable", glow: "#ef4444", anim: "dragon", img: "Perm_Dragon_Token.png",    beli: 0,  robux: 0,   type: "Limited" }
 ];
 
 var FRUITS_DETAIL = {
@@ -194,7 +196,9 @@ var FRUITS_DETAIL = {
   "2x Mastery":        { desc: "Doubles all mastery EXP gained from defeating NPCs. Affects item mastery, not player levels.", moves: [], awakening: false, dropChance: "Purchasable gamepass (450 Robux)" },
   "2x Money":          { desc: "Doubles Money earned from NPCs and quests. Does not affect chest loot.", moves: [], awakening: false, dropChance: "Purchasable gamepass (450 Robux)" },
   "2x Boss Drops":     { desc: "Doubles the chance for bosses to drop items like swords, accessories, etc.", moves: [], awakening: false, dropChance: "Purchasable gamepass (350 Robux)" },
-  "Fast Boats":        { desc: "Grants access to Miracle (free, 2nd fastest) and The Sentinel (1000$ spawn, fastest boat).", moves: [], awakening: false, dropChance: "Purchasable gamepass (350 Robux)" }
+  "Fast Boats":        { desc: "Grants access to Miracle (free, 2nd fastest) and The Sentinel (1000$ spawn, fastest boat).", moves: [], awakening: false, dropChance: "Purchasable gamepass (350 Robux)" },
+  "Dragon Token":      { desc: "Obtained from converting old physical Dragon after Update 24 rework. Can be exchanged for a random Mythical fruit. Tradeable.", moves: [], awakening: false, dropChance: "Converted from old physical Dragon (Update 24)" },
+  "Perm Dragon Token": { desc: "Obtained from converting old Permanent Dragon after Update 24 rework. Tradeable premium token. Highly sought after.", moves: [], awakening: false, dropChance: "Converted from old Permanent Dragon (Update 24)" }
 };
 
 if (typeof module !== "undefined") {
