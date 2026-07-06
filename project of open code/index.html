@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>blox fruits trade calculator</title>
+  <meta name="description" content="Blox Fruits Trade Calculator — Live trade value calculator with trade board, community chat, and giveaways for Roblox Blox Fruits." />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://apis.google.com https://pagead2.googlesyndication.com https://*.google.com http://localhost:* https://*.roblox.com https://ep2.adtrafficquality.google https://*.adtrafficquality.google; style-src 'self' 'unsafe-inline'; img-src 'self' https: data: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.firebaseio.com https://*.firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.gstatic.com https://apis.google.com https://pagead2.googlesyndication.com http://localhost:* https://*.roblox.com https://*.doubleclick.net https://ep1.adtrafficquality.google https://ep2.adtrafficquality.google https://*.adtrafficquality.google https://www.google.com https://www.google-analytics.com; frame-src https://accounts.google.com https://apis.google.com https://*.firebaseapp.com https://*.firebaseio.com https://googleads.g.doubleclick.net https://*.doubleclick.net https://www.google.com https://ep2.adtrafficquality.google https://*.adtrafficquality.google; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups" />
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="robots" content="index, follow" />
+  <meta name="google-adsense-account" content="ca-pub-2633143245449460">
+  <link rel="preconnect" href="https://thumbnails.roblox.com" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2633143245449460" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='lg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%237c3aed'/%3E%3Cstop offset='100%25' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='1.5'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='100' height='100' rx='24' fill='url(%23lg)'/%3E%3Crect x='4' y='4' width='92' height='92' rx='20' fill='none' stroke='rgba(255,255,255,0.15)' stroke-width='1.5'/%3E%3Ctext x='50' y='44' text-anchor='middle' fill='%23fff' font-size='36' font-weight='900' font-family='sans-serif' filter='url(%23g)'%3EBF%3C/text%3E%3Ctext x='50' y='72' text-anchor='middle' fill='rgba(255,255,255,0.55)' font-size='15' font-weight='700' font-family='sans-serif' letter-spacing='2'%3ETRADE%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+  <!-- Background Battle Canvas -->
+  <canvas id="battleCanvas" class="battle-canvas" aria-hidden="true"></canvas>
+
+  <!-- Security: CSRF token stored in meta -->
+  <meta name="csrf-token" content="bfx_csrf_2026_secure_token" />
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <svg class="brand-logo" viewBox="0 0 100 100" width="44" height="44" aria-hidden="true">
+          <defs>
+            <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#7c3aed"/>
+              <stop offset="50%" stop-color="#a855f7"/>
+              <stop offset="100%" stop-color="#06b6d4"/>
+            </linearGradient>
+            <linearGradient id="logoGrad2" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <rect width="100" height="100" rx="24" fill="url(#logoGrad)"/>
+          <rect width="100" height="100" rx="24" fill="url(#logoGrad2)"/>
+          <rect x="4" y="4" width="92" height="92" rx="20" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+          <polygon points="50,18 78,34 78,66 50,82 22,66 22,34" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <text x="50" y="42" text-anchor="middle" fill="#fff" font-size="32" font-weight="900" font-family="sans-serif" filter="url(#glow)">BF</text>
+          <text x="50" y="70" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="14" font-weight="700" font-family="sans-serif" letter-spacing="2">TRADE</text>
+        </svg>
+        <div>
+          <h1 class="brand-title">blox fruits trade <span class="accent">calculator</span></h1>
+          <p class="brand-sub">Live trade value tracker for every fruit</p>
+        </div>
+      </div>
+      <div class="header-meta">
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+        <span class="online-badge" id="activeCountBadge" style="display:none">0 online</span>
+        <div class="updated-pill" id="updatedPill" title="Click to refresh">
+          <span class="pulse-dot"></span>
+          <span id="updatedText">Loading...</span>
+        </div>
+        <button class="icon-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">&#127769;</button>
+        <button class="icon-btn calc-toggle" id="calcToggleBtn" title="Scroll to Trade Calculator" aria-label="Trade Calculator"><span class="calc-icon">&#128200;</span> <span class="calc-label">Calculator</span></button>
+        <div id="authSection" class="auth-section">
+          <button class="btn-signin" id="signInBtn">&#128273; Google</button>
+          <button class="btn-signin btn-signin-roblox" id="signInRobloxBtn">&#127918; Roblox</button>
+          <div id="userMenu" class="user-menu hidden">
+            <span class="user-avatar-letter" id="userAvatarLetter">&#128100;</span>
+            <button class="btn-profile" id="profileBtn">&#128100; Profile</button>
+            <button class="btn-signout" id="signOutBtn">&#128682; Sign out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Nav Drawer -->
+  <div class="nav-drawer-overlay" id="navDrawerOverlay"></div>
+  <nav class="nav-drawer" id="navDrawer">
+    <button class="nav-drawer-close" id="navDrawerClose">&times;</button>
+    <div class="nav-drawer-items">
+      <button class="nav-drawer-btn active" data-tab="calc">&#128200; Calculator</button>
+      <button class="nav-drawer-btn" data-tab="board">&#128203; Trade Ads</button>
+      <button class="nav-drawer-btn" data-tab="chat">&#128172; Community Chat</button>
+      <button class="nav-drawer-btn" data-tab="fruits">&#127822; Fruit Values</button>
+      <button class="nav-drawer-btn" data-tab="giveaways">&#127881; Giveaways</button>
+      <hr class="nav-drawer-divider" />
+      <button class="nav-drawer-btn nav-drawer-link" id="drawerPrivacyLink">&#128220; Privacy Policy</button>
+      <button class="nav-drawer-btn nav-drawer-link" id="drawerTosLink">&#128220; Terms of Service</button>
+      <button class="nav-drawer-btn nav-drawer-link" id="drawerAboutLink">&#128214; About</button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- Tab Navigation -->
+    <div class="tab-bar" id="tabBar">
+      <button class="tab-btn active" data-tab="calc">&#128200; Calculator</button>
+      <button class="tab-btn" data-tab="board">&#128203; Trade Ads</button>
+      <button class="tab-btn" data-tab="chat">&#128172; Community Chat</button>
+      <button class="tab-btn" data-tab="fruits">&#127822; Fruit Values</button>
+      <button class="tab-btn" data-tab="giveaways">&#127881; Giveaways</button>
+    </div>
+
+    <!-- Calculator View -->
+    <div class="tab-content calc-landing" id="calcView">
+      <div class="calc-landing-inner">
+        <h2 class="calc-landing-title">&#128200; Trade Calculator</h2>
+        <p class="calc-landing-sub">Add up to 4 fruits per side and see profit or loss instantly.</p>
+
+        <div class="calc-boxes">
+          <div class="calc-side">
+            <div class="calc-side-title">Your Offer</div>
+            <div class="calc-slots">
+              <div class="calc-slot" data-side="offer" data-idx="0"></div>
+              <div class="calc-slot" data-side="offer" data-idx="1"></div>
+              <div class="calc-slot" data-side="offer" data-idx="2"></div>
+              <div class="calc-slot" data-side="offer" data-idx="3"></div>
+            </div>
+            <div class="calc-side-total">Total: <strong id="offerTotal">0</strong></div>
+          </div>
+
+          <div class="calc-vs">VS</div>
+
+          <div class="calc-side">
+            <div class="calc-side-title">You Request</div>
+            <div class="calc-slots">
+              <div class="calc-slot" data-side="request" data-idx="0"></div>
+              <div class="calc-slot" data-side="request" data-idx="1"></div>
+              <div class="calc-slot" data-side="request" data-idx="2"></div>
+              <div class="calc-slot" data-side="request" data-idx="3"></div>
+            </div>
+            <div class="calc-side-total">Total: <strong id="requestTotal">0</strong></div>
+          </div>
+        </div>
+
+        <div class="calc-result" id="calcResult">
+          <div class="calc-result-inner">
+            <span class="calc-result-label" id="resultLabel">Add fruits to both sides</span>
+            <span class="calc-result-value" id="resultValue"></span>
+          </div>
+          <button class="calc-chat-btn hidden" id="postTradeToChatBtn">&#128172; Post Trade to Chat</button>
+        </div>
+        <button class="calc-reset-btn" id="calcResetBtn">&#128260; Reset Calculator</button>
+      </div>
+      <div class="tab-ad" style="margin:16px auto;width:100%;max-width:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.1);border-radius:8px;padding:8px;min-height:60px">
+        <ins class="adsbygoogle"
+             style="display:block;text-align:center"
+             data-ad-layout="in-article"
+             data-ad-format="fluid"
+             data-ad-client="ca-pub-2633143245449460"
+             data-ad-slot="2505405683"></ins>
+      </div>
+    </div>
+
+    <!-- Fruits View -->
+    <div id="fruitsView" class="tab-content hidden">
+      <div class="fruits-hero-compact">
+        <div class="search-wrap">
+          <span class="search-icon">&#128269;</span>
+          <input id="searchInput" type="search" placeholder="Search fruit (e.g. Dragon, Dough, Kitsune)..." autocomplete="off" maxlength="100" />
+        </div>
+        <div class="filters" id="categoryFilters">
+          <button class="chip active" data-cat="all">All</button>
+          <button class="chip" data-cat="common">◇ Common</button>
+          <button class="chip" data-cat="uncommon">◆ Uncommon</button>
+          <button class="chip" data-cat="rare">★ Rare</button>
+          <button class="chip" data-cat="legendary">✦ Legendary</button>
+          <button class="chip" data-cat="mythical">♛ Mythical</button>
+          <button class="chip" data-cat="gamepass">⚡ Gamepass</button>
+          <button class="chip" data-cat="limited">✧ Limited</button>
+        </div>
+        <div class="sort-wrap">
+          <label for="sortSelect">Sort by</label>
+          <select id="sortSelect">
+            <option value="value-desc" selected>Value ↓ (high to low)</option>
+            <option value="value-asc">Value ↑ (low to high)</option>
+            <option value="name-asc">Name A-Z</option>
+            <option value="name-desc">Name Z-A</option>
+            <option value="trend">Trend (hottest first)</option>
+          </select>
+        </div>
+      </div>
+      <div class="stats-bar" id="statsBar"></div>
+      <div id="fruitGrid" class="fruit-grid" aria-live="polite"></div>
+      <div id="emptyState" class="empty-state hidden">
+        <div class="empty-emoji">&#128549;</div>
+        <p>No fruits match your search.</p>
+      </div>
+      <div class="tab-ad" style="margin:16px auto;width:100%;max-width:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.1);border-radius:8px;padding:8px;min-height:60px">
+        <ins class="adsbygoogle"
+             style="display:block;text-align:center"
+             data-ad-layout="in-article"
+             data-ad-format="fluid"
+             data-ad-client="ca-pub-2633143245449460"
+             data-ad-slot="2505405683"></ins>
+      </div>
+    </div>
+
+    <!-- Trade Board View -->
+    <div id="boardView" class="tab-content hidden">
+      <div class="board-header">
+        <h2 class="board-title">&#128203; Trade Ads</h2>
+        <button class="board-post-btn" id="postOfferBtn">+ New Ad</button>
+      </div>
+      <div class="board-search">
+        <span class="search-icon">&#128269;</span>
+        <input id="boardSearch" type="search" placeholder="Search ads by fruit or user..." autocomplete="off" maxlength="100" />
+      </div>
+      <div id="offerGrid" class="offer-grid"></div>
+      <button class="load-more-btn hidden" id="loadMoreBtn">&#128203; Load More Ads</button>
+      <div id="emptyBoard" class="empty-state">
+        <div class="empty-emoji">&#128236;</div>
+        <p>No ads yet. Be the first to post a trade ad!</p>
+      </div>
+      <div class="tab-ad" style="margin:16px auto;width:100%;max-width:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.1);border-radius:8px;padding:8px;min-height:60px">
+        <ins class="adsbygoogle"
+             style="display:block;text-align:center"
+             data-ad-layout="in-article"
+             data-ad-format="fluid"
+             data-ad-client="ca-pub-2633143245449460"
+             data-ad-slot="2505405683"></ins>
+      </div>
+    </div>
+
+    <!-- Community Chat View -->
+    <div id="chatView" class="tab-content hidden">
+      <div class="chat-header">
+        <h2 class="board-title">&#128172; Community Chat</h2>
+        <span class="chat-live-badge">&#9679; Live</span>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-login-msg" id="chatLoginMsg">&#128273; Sign in with Google to join the community chat</div>
+      </div>
+      <div class="chat-input-area" id="chatInputArea">
+        <textarea class="chat-input" id="chatInput" placeholder="Type a message..." rows="2" maxlength="500"></textarea>
+        <button class="chat-emoji-btn" id="emojiBtn" title="Fruit picker">&#127822;</button>
+        <div class="emoji-picker hidden" id="emojiPicker">
+          <div class="emoji-tabs" id="emojiTabs">
+            <button class="emoji-tab active" data-tab="fruits">&#127822; Fruits</button>
+            <button class="emoji-tab" data-tab="perms">&#128142; Perm</button>
+            <button class="emoji-tab" data-tab="gamepasses">&#9889; Passes</button>
+            <button class="emoji-tab" data-tab="offer">&#128228; Trade</button>
+          </div>
+          <div class="emoji-grid" id="emojiGrid"></div>
+        </div>
+        <button class="chat-trade-btn" id="chatTradeBtn" title="Post a Live Trade \u2014 open the calculator">&#128200;</button>
+        <button class="chat-send-btn" id="chatSendBtn">&#10148; Send</button>
+      </div>
+      <div class="tab-ad" style="margin:16px auto;width:100%;max-width:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.1);border-radius:8px;padding:8px;min-height:60px">
+        <ins class="adsbygoogle"
+             style="display:block;text-align:center"
+             data-ad-layout="in-article"
+             data-ad-format="fluid"
+             data-ad-client="ca-pub-2633143245449460"
+             data-ad-slot="2505405683"></ins>
+      </div>
+    </div>
+
+    <!-- Giveaways View -->
+    <div id="giveawaysView" class="tab-content hidden">
+      <div class="board-header">
+        <h2 class="board-title">&#127881; Giveaways</h2>
+        <button class="board-post-btn" id="createGvBtn">+ Create Giveaway</button>
+      </div>
+      <div id="giveawayGrid" class="giveaway-grid"></div>
+      <div id="emptyGiveaways" class="empty-state">
+        <div class="empty-emoji">&#127881;</div>
+        <p>No giveaways yet. Host one!</p>
+      </div>
+      <div class="tab-ad" style="margin:16px auto;width:100%;max-width:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.1);border-radius:8px;padding:8px;min-height:60px">
+        <ins class="adsbygoogle"
+             style="display:block;text-align:center"
+             data-ad-layout="in-article"
+             data-ad-format="fluid"
+             data-ad-client="ca-pub-2633143245449460"
+             data-ad-slot="2505405683"></ins>
+      </div>
+    </div>
+  </main>
+
+  <!-- Fruit Picker (for calculator) -->
+  <div id="pickerModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="pickerTitle">
+    <div class="modal-backdrop" id="pickerBackdrop"></div>
+    <div class="modal-content picker-panel">
+      <button class="modal-close" id="pickerCloseBtn" aria-label="Close">&times;</button>
+      <h2 id="pickerTitle" class="calc-title">Select an Item</h2>
+      <div class="search-wrap" style="margin-bottom:14px">
+        <span class="search-icon">&#128269;</span>
+        <input id="pickerSearch" type="search" placeholder="Search item..." autocomplete="off" maxlength="100" />
+      </div>
+      <div class="picker-grid" id="pickerGrid"></div>
+    </div>
+  </div>
+
+  <!-- Fruit Detail Modal -->
+  <div id="detailModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+    <div class="modal-backdrop" id="detailBackdrop"></div>
+    <div class="modal-content detail-panel">
+      <button class="modal-close" id="detailCloseBtn" aria-label="Close">&times;</button>
+      <div class="detail-layout">
+        <div class="detail-image-wrap" id="detailImageWrap">
+          <div class="detail-img-bg" id="detailImgBg"></div>
+          <img id="detailImg" class="detail-img" alt="" />
+          <div class="detail-fallback" id="detailFallback"></div>
+        </div>
+        <div class="detail-info">
+          <h2 id="detailTitle" class="detail-name"></h2>
+          <span class="detail-badge" id="detailBadge"></span>
+          <span class="detail-type" id="detailType"></span>
+          <p class="detail-desc" id="detailDesc"></p>
+          <div class="detail-section">
+            <h3 class="detail-section-title">&#127895; Abilities</h3>
+            <ul class="detail-moves" id="detailMoves"></ul>
+          </div>
+          <div class="detail-section">
+            <h3 class="detail-section-title">&#128200; Raid Awakening</h3>
+            <p class="detail-awake" id="detailAwake"></p>
+          </div>
+          <div class="detail-grid">
+            <div class="detail-stat"><span class="stat-label">Drop Chance</span><span class="stat-val" id="detailDrop"></span></div>
+            <div class="detail-stat"><span class="stat-label">Beli Price</span><span class="stat-val" id="detailBeli"></span></div>
+            <div class="detail-stat"><span class="stat-label">Robux Price</span><span class="stat-val" id="detailRobux"></span></div>
+            <div class="detail-stat"><span class="stat-label">Trade Value</span><span class="stat-val accent-val" id="detailValue"></span></div>
+            <div class="detail-stat" id="detailPermRow"><span class="stat-label">Perm Value</span><span class="stat-val accent-val" id="detailPerm"></span></div>
+            <div class="detail-stat"><span class="stat-label">Demand</span><span class="stat-val" id="detailDemand"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Post Offer Modal -->
+  <div id="postModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="postTitle">
+    <div class="modal-backdrop" id="postBackdrop"></div>
+    <div class="modal-content post-panel">
+      <button class="modal-close" id="postCloseBtn" aria-label="Close">&times;</button>
+      <div class="post-header">
+        <div class="post-header-icon">&#128200;</div>
+        <div>
+          <h2 id="postTitle" class="post-header-title">New Trade Ad</h2>
+          <p class="post-header-sub">Select fruits and set your terms</p>
+        </div>
+      </div>
+      <form id="postForm">
+        <div class="post-body">
+          <div class="post-main">
+            <div class="post-selection-bar" id="postSelectionBar">
+              <div class="post-selection-tabs">
+                <button type="button" class="post-sel-tab active" data-side="offering">
+                  <span class="post-sel-icon">&#128229;</span>
+                  <span class="post-sel-label">Offering</span>
+                  <span class="post-count" id="offeringCount">0</span>
+                </button>
+                <button type="button" class="post-sel-tab" data-side="wanting">
+                  <span class="post-sel-icon">&#128230;</span>
+                  <span class="post-sel-label">Wanting</span>
+                  <span class="post-count" id="wantingCount">0</span>
+                </button>
+              </div>
+              <div class="post-active-hint" id="postActiveHint">Click fruits to add to <strong>Offering</strong></div>
+            </div>
+            <div class="post-fruit-grid-wrap">
+              <div class="post-fruit-grid" id="postFruitGrid"></div>
+            </div>
+            <div class="post-preview-wrap" id="postPreviewWrap">
+              <div class="post-preview-label">&#128220; Preview</div>
+              <div class="post-preview-cards" id="postPreviewCards">
+                <div class="post-preview-side">
+                  <div class="post-preview-side-title">You Offer</div>
+                  <div class="post-preview-chips" id="offerPreviewChips">
+                    <span class="post-preview-empty">Click fruits above</span>
+                  </div>
+                </div>
+                <div class="post-preview-divider">&#8594;</div>
+                <div class="post-preview-side">
+                  <div class="post-preview-side-title">You Want</div>
+                  <div class="post-preview-chips" id="wantPreviewChips">
+                    <span class="post-preview-empty">Click fruits above</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="post-sidebar">
+            <div class="post-option-card">
+              <div class="post-option-icon">&#128100;</div>
+              <div class="post-option-content">
+                <label class="post-option-label" for="postContact">Contact</label>
+                <input class="post-option-input" id="postContact" type="text" placeholder="Discord / Roblox" maxlength="200" />
+              </div>
+            </div>
+            <div class="post-option-card post-option-toggle" id="openToOffersRow">
+              <div class="post-option-icon">&#127775;</div>
+              <div class="post-option-content">
+                <label class="post-option-check">
+                  <input type="checkbox" id="openToOffersCheck" />
+                  <span class="post-option-check-label">Open to Offers</span>
+                </label>
+                <span class="post-option-hint">Let others propose trades</span>
+              </div>
+            </div>
+            <div class="post-option-card hidden" id="wantingTextFieldGroup">
+              <div class="post-option-icon">&#128221;</div>
+              <div class="post-option-content">
+                <label class="post-option-label" for="wantingTextField">Custom Request</label>
+                <textarea class="post-option-textarea" id="wantingTextField" placeholder='e.g. "Yeti + good adds"' rows="2" maxlength="300"></textarea>
+              </div>
+            </div>
+            <div class="post-option-card">
+              <div class="post-option-icon">&#128221;</div>
+              <div class="post-option-content">
+                <label class="post-option-label" for="postNotes">Notes</label>
+                <textarea class="post-option-textarea" id="postNotes" placeholder="Perm/regular, conditions..." rows="2" maxlength="500"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="form-submit" type="submit">
+          <span>&#128203;</span>
+          <span>Post Ad</span>
+        </button>
+      </form>
+      <datalist id="fruitList"></datalist>
+    </div>
+  </div>
+
+  <!-- Create Giveaway Modal -->
+  <div id="gvModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="gvTitle">
+    <div class="modal-backdrop" id="gvBackdrop"></div>
+    <div class="modal-content post-panel" style="max-width:520px">
+      <button class="modal-close" id="gvCloseBtn" aria-label="Close">&times;</button>
+      <div class="post-header">
+        <div class="post-header-icon">&#127881;</div>
+        <div>
+          <h2 id="gvTitle" class="post-header-title">Create Giveaway</h2>
+          <p class="post-header-sub">Set a prize, end date, and let people enter</p>
+        </div>
+      </div>
+      <form id="gvForm">
+        <div class="form-group">
+          <label class="form-label" for="gvPrize">Prize <span class="form-hint">(what you're giving away)</span></label>
+          <input class="form-input" id="gvPrize" type="text" placeholder="e.g. Kitsune, perm Dough, 100M Beli..." maxlength="200" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="gvDesc">Description <span class="form-hint">(optional)</span></label>
+          <textarea class="form-input form-textarea" id="gvDesc" placeholder="Any extra info for participants..." rows="3" maxlength="1000"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="gvEndDate">Reveal Date</label>
+          <input class="form-input" id="gvEndDate" type="date" required />
+        </div>
+        <button class="form-submit" type="submit">&#127881; Launch Giveaway</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Contact / Negotiation Modal -->
+  <div id="contactModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+    <div class="modal-backdrop" id="contactBackdrop"></div>
+    <div class="modal-content contact-panel">
+      <button class="modal-close" id="contactCloseBtn" aria-label="Close">&times;</button>
+      <h2 id="contactTitle" class="calc-title">&#128172; Negotiate Trade</h2>
+      <div id="contactInfo" class="contact-info"></div>
+
+      <!-- Conversation Thread -->
+      <div class="thread-container" id="threadContainer">
+        <div class="thread-list" id="threadList"></div>
+        <div class="thread-empty" id="threadEmpty">No messages yet. Start the negotiation!</div>
+      </div>
+
+      <!-- Counter-Offer -->
+      <div class="counter-offer-section" id="counterOfferSection">
+        <div class="counter-offer-toggle" id="counterToggle">
+          <span class="counter-offer-icon">&#128260;</span> Propose what you'll give
+        </div>
+        <div class="counter-offer-body hidden" id="counterBody">
+          <div class="form-group">
+            <label class="form-label">Your Offer <span class="form-hint">(type fruit, press Enter)</span></label>
+            <div class="tag-input" id="counterTagInput">
+              <div class="tag-list" id="counterTagList"></div>
+              <input class="tag-input-field" id="counterTagField" type="text" placeholder="Type fruit + Enter" list="fruitList" autocomplete="off" maxlength="100" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="counterWant">What you want them to add/change</label>
+            <input class="form-input" id="counterWant" type="text" placeholder="e.g. Can you add a Leo?" maxlength="300" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Send Message -->
+      <form id="contactForm">
+        <div class="form-group">
+          <label class="form-label" for="contactName">Your Name</label>
+          <input class="form-input" id="contactName" type="text" placeholder="e.g. Trader123" maxlength="100" required />
+        </div>
+        <div class="form-row form-row-msg">
+          <div class="form-group" style="flex:1">
+            <label class="form-label" for="contactMsg">Message</label>
+            <textarea class="form-input form-textarea form-textarea-sm" id="contactMsg" placeholder="Hi, I'm interested in your offer..." maxlength="1000" required></textarea>
+          </div>
+          <div class="form-group form-group-btn">
+            <button class="form-submit" type="submit">Send</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Giveaway Detail Modal -->
+  <div id="gvDetailModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="gvDetailTitle">
+    <div class="modal-backdrop" id="gvDetailBackdrop"></div>
+    <div class="modal-content contact-panel" style="max-width:560px">
+      <button class="modal-close" id="gvDetailCloseBtn" aria-label="Close">&times;</button>
+      <div id="gvDetailContent"></div>
+    </div>
+  </div>
+
+  <!-- Profile Modal -->
+  <div id="profileModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+    <div class="modal-backdrop" id="profileBackdrop"></div>
+    <div class="modal-content profile-panel">
+      <button class="modal-close" id="profileCloseBtn" aria-label="Close">&times;</button>
+      <h2 id="profileTitle" class="calc-title">&#128100; Your Profile</h2>
+      <p class="calc-sub">Set how other traders see you on the board.</p>
+      <form id="profileForm">
+        <div class="form-group">
+          <label class="form-label">Email (from Google)</label>
+          <div class="form-input-static" id="profileEmail"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="profileDisplay">Display Name</label>
+          <input class="form-input" id="profileDisplay" type="text" placeholder="How others see you" maxlength="50" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="profileDiscord">Discord Handle (optional)</label>
+          <input class="form-input" id="profileDiscord" type="text" placeholder="e.g. user#0000" maxlength="100" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="profileRoblox">Roblox Username (optional)</label>
+          <input class="form-input" id="profileRoblox" type="text" placeholder="e.g. xX_FruitMaster_Xx" maxlength="100" />
+        </div>
+        <button class="form-submit" type="submit">Save Profile</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Privacy Policy Content (hidden, linked from footer) -->
+  <div id="privacyModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" id="privacyBackdrop"></div>
+    <div class="modal-content" style="max-width:640px">
+      <button class="modal-close" id="privacyCloseBtn" aria-label="Close">&times;</button>
+      <h2 class="calc-title" style="margin-bottom:12px">&#128220; Privacy Policy</h2>
+      <div class="privacy-text">
+        <p><strong>Last updated:</strong> June 2026</p>
+        <br>
+        <p><strong>Data we collect:</strong></p>
+        <p>When you sign in with Google, we receive your email address, name, and profile picture (from your Google account). We also store any Discord/Roblox handles you voluntarily provide in your profile.</p>
+        <br>
+        <p><strong>How we use your data:</strong></p>
+        <p>Your display name and Discord/Roblox handles are shown on the Trade Board so other users can contact you. Your email is never shared publicly.</p>
+        <br>
+        <p><strong>Data storage:</strong></p>
+        <p>All data is stored in Google Cloud Firestore (Google's secure database). We use Firebase Authentication for sign-in — we never see or store your password.</p>
+        <br>
+        <p><strong>Cookies &amp; Advertising:</strong></p>
+        <p>This site uses Google AdSense to serve ads. Google and its partners use cookies to serve personalized ads based on your visits to this site and other sites across the web. Cookies are small text files stored by your browser.</p>
+        <p>You can opt out of personalized advertising by visiting <a href="https://optout.networkadvertising.org" target="_blank" rel="noopener">https://optout.networkadvertising.org</a> or <a href="https://www.youronlinechoices.com" target="_blank" rel="noopener">https://www.youronlinechoices.com</a> (EU). You can also disable cookies in your browser settings.</p>
+        <p>For more information about how Google uses data, visit <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">https://policies.google.com/privacy</a> and <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">https://policies.google.com/technologies/ads</a>.</p>
+        <br>
+        <p><strong>Your rights:</strong></p>
+        <p>You can delete your offers and messages at any time. To delete your entire account data, contact us at <strong>contact@bloxfruits-trade-calculator.com</strong>. You can also sign out at any time.</p>
+        <br>
+        <p><strong>Third-party services:</strong></p>
+        <p>This site uses Google Firebase (Auth, Firestore) and Google AdSense. Their respective privacy policies apply to data handling on their infrastructure.</p>
+        <br>
+        <p><strong>Children's privacy:</strong></p>
+        <p>This site is a fan project for Roblox. If you are under 13, you must have parental consent to use Google sign-in. We do not knowingly collect data from children under 13 without consent.</p>
+        <br>
+        <p><strong>Contact:</strong></p>
+        <p>Email: <strong>contact@bloxfruits-trade-calculator.com</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terms of Service Modal -->
+  <div id="tosModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" id="tosBackdrop"></div>
+    <div class="modal-content" style="max-width:640px">
+      <button class="modal-close" id="tosCloseBtn" aria-label="Close">&times;</button>
+      <h2 class="calc-title" style="margin-bottom:12px">&#128220; Terms of Service</h2>
+      <div class="privacy-text">
+        <p><strong>Last updated:</strong> June 2026</p>
+        <br>
+        <p><strong>1. Acceptance of Terms</strong></p>
+        <p>By using blox fruits trade calculator, you agree to these Terms of Service. If you do not agree, do not use the site.</p>
+        <br>
+        <p><strong>2. Fan Project</strong></p>
+        <p>This site is a fan-made project. It is not affiliated with Roblox Corporation, Gamer Robot Inc., or the developers of Blox Fruits. All in-game values are community-driven estimates and for reference only.</p>
+        <br>
+        <p><strong>3. User Conduct</strong></p>
+        <p>You agree not to: (a) post false or misleading trade offers, (b) harass other users, (c) spam the chat or trade board, (d) attempt to bypass security measures, (e) use the site for any illegal purpose.</p>
+        <br>
+        <p><strong>4. User Content</strong></p>
+        <p>You are responsible for the trade offers, messages, and profile information you post. We reserve the right to remove content that violates these terms.</p>
+        <br>
+        <p><strong>5. Account Termination</strong></p>
+        <p>We reserve the right to suspend or terminate access to users who violate these terms, at our sole discretion.</p>
+        <br>
+        <p><strong>6. Disclaimer of Warranties</strong></p>
+        <p>This site is provided "as is" without any warranty. Fruit values are community estimates — always verify in-game before trading. We are not responsible for any losses incurred from trades based on this data.</p>
+        <br>
+        <p><strong>7. Limitation of Liability</strong></p>
+        <p>We shall not be liable for any damages arising from your use of this site, including but not limited to inaccurate trade values or lost in-game items.</p>
+        <br>
+        <p><strong>8. Changes to Terms</strong></p>
+        <p>We may update these terms at any time. Continued use after changes constitutes acceptance of the new terms.</p>
+        <br>
+        <p><strong>9. Contact</strong></p>
+        <p>For questions about these terms, email <strong>contact@bloxfruits-trade-calculator.com</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- About Modal -->
+  <div id="aboutModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" id="aboutBackdrop"></div>
+    <div class="modal-content" style="max-width:640px">
+      <button class="modal-close" id="aboutCloseBtn" aria-label="Close">&times;</button>
+      <h2 class="calc-title" style="margin-bottom:12px">&#128214; About</h2>
+      <div class="privacy-text">
+        <p><strong>blox fruits trade calculator</strong> is a fan-made trade value calculator and trading community for the Roblox game Blox Fruits.</p>
+        <br>
+        <p>Our goal is to help players make fair trades by providing up-to-date community-driven fruit values, a trade board to post ads, a community chat, and giveaway tools.</p>
+        <br>
+        <p><strong>Features:</strong></p>
+        <p>&bull; Trade Calculator — compare up to 4 items per side and see profit/loss instantly</p>
+        <p>&bull; Trade Board — post and browse trade ads from the community</p>
+        <p>&bull; Fruit Values — browse current market values for all fruits</p>
+        <p>&bull; Community Chat — discuss values, trades, and strategies</p>
+        <p>&bull; Giveaways — create and enter fruit giveaways</p>
+        <br>
+        <p><strong>Contact:</strong></p>
+        <p>Email: <strong>contact@bloxfruits-trade-calculator.com</strong></p>
+        <br>
+        <p><strong>Disclaimer:</strong></p>
+        <p>This is a fan project. Not affiliated with Roblox, Gamer Robot Inc., or the Blox Fruits developers. All values are community-driven estimates for reference only. Always verify trades in-game.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cookie Consent Banner -->
+  <div id="cookieBanner" class="cookie-banner hidden" role="alert">
+    <div class="cookie-banner-inner">
+      <p class="cookie-banner-text">This site uses cookies from Google and its partners to serve personalized ads and analyze site traffic. By clicking "Accept", you consent to our use of cookies. <a href="#" id="cookiePrivacyLink" style="color:var(--cyan);text-decoration:underline">Learn more</a>.</p>
+      <div class="cookie-banner-actions">
+        <button class="cookie-btn cookie-btn-accept" id="cookieAcceptBtn">Accept</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="disclaimer-section">
+    <div class="container">
+      <p class="disclaimer">
+        Fan project. Not affiliated with Roblox, Gamer Robot Inc., or the Blox Fruits developers.
+        Values are community-driven and intended for reference only. Always verify in-game before trading.
+      </p>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <!-- Ad Banner -->
+      <div style="margin:16px auto;width:100%;max-width:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.15);border-radius:8px;padding:12px;min-height:90px">
+        <ins class="adsbygoogle"
+             style="display:block;text-align:center"
+             data-ad-layout="in-article"
+             data-ad-format="fluid"
+             data-ad-client="ca-pub-2633143245449460"
+             data-ad-slot="2505405683"></ins>
+      </div>
+      <p>&copy; <span id="year"></span> blox fruits trade calculator &middot; Fan-made &middot; Built with care &middot; <a href="#" id="privacyLink" style="color:var(--text-dim);text-decoration:underline">Privacy</a> &middot; <a href="#" id="tosLink" style="color:var(--text-dim);text-decoration:underline">Terms</a> &middot; <a href="#" id="aboutLink" style="color:var(--text-dim);text-decoration:underline">About</a></p>
+    </div>
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="fruits-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

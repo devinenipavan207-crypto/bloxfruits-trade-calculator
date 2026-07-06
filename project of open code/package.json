@@ -1,0 +1,15 @@
+{
+  "name": "blox-fruits-values",
+  "version": "1.0.0",
+  "description": "Live Blox Fruits value tracker website. Static HTML/CSS/JS plus an update script that pulls current values from public trading sites.",
+  "private": true,
+  "scripts": {
+    "start": "npx --yes serve .",
+    "update": "node update-values.js",
+    "dev": "npx --yes live-server ."
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "node-fetch": "^2.7.0"
+  }
+}
