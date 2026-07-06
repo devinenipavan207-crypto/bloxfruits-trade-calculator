@@ -149,7 +149,6 @@
     if (fb) fb.style.display = 'flex';
     var urls = [
       "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + fileName,
-      "https://static.wikia.nocookie.net/blox-fruits/images/" + fileName.replace(/_/g, "/").toLowerCase()
     ];
     var attempt = 0;
     function tryNext() {
