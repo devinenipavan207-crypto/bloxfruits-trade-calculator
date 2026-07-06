@@ -7,9 +7,9 @@ var FIREBASE_CONFIG = {
   appId: "1:243944503866:web:1d66416a4ed6b6020dd303"
 };
 
-/* ── Roblox OAuth ──
-   Create an OAuth App at https://create.roblox.com/dashboard/credentials?activeTab=OAuthTab
-   Set redirect URL to: https://YOUR_PROJECT.firebaseapp.com  (or your custom domain)
-   Copy the Client ID below.
-   PKCE (code challenge) is used — no client secret needed. */
-var ROBLOX_OAUTH_CLIENT_ID = "888467571515343416";
+/* ── Discord OAuth ──
+   1. Go to https://discord.com/developers/applications → New Application
+   2. Go to OAuth2 → General → Add redirect URL like https://blox-fruits-calculator.vercel.app
+   3. Copy the Client ID below.
+   PKCE (code challenge) is used — no client secret needed (enable Public Client in Discord settings). */
+var DISCORD_CLIENT_ID = "";

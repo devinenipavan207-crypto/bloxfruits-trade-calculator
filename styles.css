@@ -1253,8 +1253,8 @@ body.theme-light .site-header { background: rgba(240,239,250,0.7); backdrop-filt
   cursor: pointer; transition: var(--transition); white-space: nowrap;
 }
 .btn-signin:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(139,92,246,0.4); }
-.btn-signin-roblox { background: linear-gradient(135deg, #ff4444, #cc0000); }
-.btn-signin-roblox:hover { box-shadow: 0 0 20px rgba(255,68,68,0.4); }
+.btn-signin-discord { background: linear-gradient(135deg, #5865F2, #4752c4); }
+.btn-signin-discord:hover { box-shadow: 0 0 20px rgba(88,101,242,0.4); }
 .btn-signout {
   background: transparent; color: var(--text-dim); border: 1px solid var(--border);
   padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600;
@@ -2026,7 +2026,7 @@ body.theme-light .site-header { background: rgba(240,239,250,0.7); backdrop-filt
   .online-badge { font-size: 10px; padding: 3px 8px; }
   .online-badge::before { width: 5px; height: 5px; }
   .btn-signin { font-size: 11px; padding: 5px 8px; }
-  .btn-signin-roblox { font-size: 11px; padding: 5px 8px; }
+  .btn-signin-discord { font-size: 11px; padding: 5px 8px; }
   .icon-btn { padding: 5px; font-size: 15px; }
   .icon-btn .calc-label { display: none; }
   .icon-btn.calc-toggle { display: none; }

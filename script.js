@@ -870,10 +870,10 @@
       firebase.auth().onAuthStateChanged(function (user) {
         var loginMethod = null;
         try { loginMethod = localStorage.getItem("bfx-login-method"); } catch (e) {}
-        if (!user && loginMethod === "roblox") {
+        if (!user && loginMethod === "discord") {
           var saved = getLocalProfile();
           if (saved && saved.displayName) {
-            authUser = { uid: "roblox_" + (saved.roblox || saved.displayName), email: (saved.roblox || "") + "@roblox.com", displayName: saved.displayName, isRoblox: true };
+            authUser = { uid: "discord_" + (saved.discord || saved.displayName), email: (saved.discord || "") + "@discord.com", displayName: saved.displayName, isDiscord: true };
             authProfile = saved;
             updateAuthUI();
             renderBoard($("#boardSearch").value);
@@ -887,16 +887,15 @@
           authProfile = {
             displayName: savedProfile.displayName || user.displayName || "",
             discord: savedProfile.discord || "",
-            roblox: savedProfile.roblox || "",
             avatarUrl: ""
           };
           saveLocalProfile(authProfile);
-          try { localStorage.setItem("bfx-login-method", "google"); } catch (e) {}
+          try { localStorage.setItem("bfx-login-method", "firebase"); } catch (e) {}
           startActiveUserTracking();
         } else {
           authUser = null;
           var local = getLocalProfile();
-          authProfile = local && local.displayName ? local : { displayName: "", discord: "", roblox: "", avatarUrl: "" };
+          authProfile = local && local.displayName ? local : { displayName: "", discord: "", avatarUrl: "" };
           if (activeUserInterval) { clearInterval(activeUserInterval); activeUserInterval = null; }
           try { localStorage.removeItem("bfx-login-method"); } catch (e) {}
         }
@@ -908,19 +907,17 @@
     } catch (e) {
       console.warn("Firebase init failed, running in local-only mode:", e);
       var local2 = getLocalProfile();
-      authProfile = local2 && local2.displayName ? local2 : { displayName: "", discord: "", roblox: "", avatarUrl: "" };
+      authProfile = local2 && local2.displayName ? local2 : { displayName: "", discord: "", avatarUrl: "" };
       updateAuthUI();
     }
   }
 
   function updateAuthUI() {
     var signInBtn = $("#signInBtn");
-    var robloxBtn = $("#signInRobloxBtn");
     var menu = $("#userMenu");
     if (!signInBtn || !menu) return;
     if (authUser) {
       signInBtn.classList.add("hidden");
-      if (robloxBtn) robloxBtn.classList.add("hidden");
       menu.classList.remove("hidden");
       var letter = $("#userAvatarLetter");
       if (letter) {
@@ -929,45 +926,11 @@
       }
     } else {
       signInBtn.classList.remove("hidden");
-      if (robloxBtn) robloxBtn.classList.remove("hidden");
       menu.classList.add("hidden");
     }
   }
 
-  function signInWithGoogle() {
-    if (!firebase || !firebase.auth) { showToast("Firebase not available"); return; }
-    var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(function () {
-      showToast("Signed in!");
-    }).catch(function (err) {
-      if (err.code !== "auth/popup-closed-by-user") showToast("Sign-in failed: " + err.message);
-    });
-  }
-
-  /* ─── Roblox OAuth (PKCE) ─── */
-  function signInWithRoblox() {
-    var clientId = typeof ROBLOX_OAUTH_CLIENT_ID !== "undefined" ? ROBLOX_OAUTH_CLIENT_ID : "";
-    if (!clientId || clientId === "YOUR_ROBLOX_CLIENT_ID") {
-      showToast("Roblox OAuth not configured — set ROBLOX_OAUTH_CLIENT_ID in firebase-config.js");
-      return;
-    }
-    var verifier = generateCodeVerifier();
-    sessionStorage.setItem("rbx_verifier", verifier);
-    generateCodeChallenge(verifier).then(function (challenge) {
-      var redirectUri = window.location.origin + window.location.pathname;
-      var url = "https://apis.roblox.com/oauth/v1/authorize" +
-        "?client_id=" + encodeURIComponent(clientId) +
-        "&redirect_uri=" + encodeURIComponent(redirectUri) +
-        "&response_type=code" +
-        "&scope=openid+profile" +
-        "&code_challenge=" + encodeURIComponent(challenge) +
-        "&code_challenge_method=S256";
-      window.location.href = url;
-    }).catch(function () {
-      showToast("Failed to start Roblox sign-in");
-    });
-  }
-
+  /* ─── Discord OAuth (PKCE) ─── */
   function generateCodeVerifier() {
     var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
     var arr = new Uint8Array(64);
@@ -983,21 +946,42 @@
     });
   }
 
-  function handleRobloxCallback() {
+  function signInWithDiscord() {
+    var clientId = typeof DISCORD_CLIENT_ID !== "undefined" ? DISCORD_CLIENT_ID : "";
+    if (!clientId) {
+      showToast("Discord OAuth not configured — set DISCORD_CLIENT_ID in firebase-config.js");
+      return;
+    }
+    var verifier = generateCodeVerifier();
+    sessionStorage.setItem("dc_verifier", verifier);
+    generateCodeChallenge(verifier).then(function (challenge) {
+      var redirectUri = window.location.origin + window.location.pathname;
+      var url = "https://discord.com/api/oauth2/authorize" +
+        "?client_id=" + encodeURIComponent(clientId) +
+        "&redirect_uri=" + encodeURIComponent(redirectUri) +
+        "&response_type=code" +
+        "&scope=identify" +
+        "&code_challenge=" + encodeURIComponent(challenge) +
+        "&code_challenge_method=S256";
+      window.location.href = url;
+    }).catch(function () {
+      showToast("Failed to start Discord sign-in");
+    });
+  }
+
+  function handleDiscordCallback() {
     var params = new URLSearchParams(window.location.search);
     var code = params.get("code");
     if (!code) return;
-    var verifier = sessionStorage.getItem("rbx_verifier");
-    sessionStorage.removeItem("rbx_verifier");
-    if (!verifier) { showToast("Roblox sign-in expired — please try again"); return; }
-    // Clean URL
+    var verifier = sessionStorage.getItem("dc_verifier");
+    sessionStorage.removeItem("dc_verifier");
+    if (!verifier) { showToast("Discord sign-in expired — please try again"); return; }
     var clean = window.location.origin + window.location.pathname;
     window.history.replaceState({}, "", clean);
-    showToast("Verifying Roblox account...");
-    var clientId = typeof ROBLOX_OAUTH_CLIENT_ID !== "undefined" ? ROBLOX_OAUTH_CLIENT_ID : "";
+    showToast("Verifying Discord account...");
+    var clientId = typeof DISCORD_CLIENT_ID !== "undefined" ? DISCORD_CLIENT_ID : "";
     var redirectUri = window.location.origin + window.location.pathname;
-    // Exchange code for token using PKCE
-    fetch("https://apis.roblox.com/oauth/v1/token", {
+    fetch("https://discord.com/api/oauth2/token", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: "client_id=" + encodeURIComponent(clientId) +
@@ -1005,61 +989,40 @@
         "&code=" + encodeURIComponent(code) +
         "&redirect_uri=" + encodeURIComponent(redirectUri) +
         "&grant_type=authorization_code"
-    }).then(function (r) { return r.json(); }).then(function (data) {
-      if (data.access_token) {
-        // Get Roblox user info from the ID token or call Users API
-        var robloxId = null;
-        var robloxName = null;
-        if (data.id_token) {
-          try {
-            var parts = data.id_token.split(".");
-            var payload = JSON.parse(atob(parts[1]));
-            robloxId = payload.sub;
-            robloxName = payload.name || payload.preferred_username || "";
-          } catch (e) {}
-        }
-        if (robloxId) {
-          // Fetch display name from Roblox Users API
-          fetch("https://users.roblox.com/v1/users/" + robloxId).then(function (r) { return r.json(); }).then(function (u) {
-            var displayName = u.displayName || u.name || robloxName || "Roblox User";
-            var data = {
-              displayName: displayName,
-              discord: "",
-              roblox: u.name || "",
-              avatarUrl: ""
-            };
-            saveLocalProfile(data);
-            authProfile = data;
-            if (!authUser) {
-              authUser = { uid: "roblox_" + robloxId, email: robloxId + "@roblox.com", displayName: displayName, isRoblox: true };
-            }
-            try { localStorage.setItem("bfx-login-method", "roblox"); } catch (e) {}
-            startActiveUserTracking();
-            updateAuthUI();
-            showToast("Signed in as " + displayName);
-          }).catch(function () {
-            var data = {
-              displayName: robloxName || "Roblox User",
-              discord: "",
-              roblox: robloxId || "",
-              avatarUrl: ""
-            };
-            saveLocalProfile(data);
-            authProfile = data;
-            authUser = { uid: "roblox_" + robloxId, email: robloxId + "@roblox.com", displayName: robloxName, isRoblox: true };
-            try { localStorage.setItem("bfx-login-method", "roblox"); } catch (e) {}
-            startActiveUserTracking();
-            updateAuthUI();
-            showToast("Signed in with Roblox");
-          });
-        } else {
-          showToast("Roblox sign-in succeeded but couldn't get profile");
-        }
+    }).then(function (r) { return r.json(); }).then(function (tokenData) {
+      if (tokenData.access_token) {
+        return fetch("https://discord.com/api/users/@me", {
+          headers: { "Authorization": "Bearer " + tokenData.access_token }
+        }).then(function (r) { return r.json(); });
       } else {
-        showToast("Roblox sign-in failed: " + (data.error_description || data.error || "Unknown error"));
+        showToast("Discord sign-in failed: " + (tokenData.error_description || tokenData.error || "Unknown error"));
+        return null;
       }
+    }).then(function (user) {
+      if (!user) return;
+      var avatarUrl = "";
+      if (user.avatar) {
+        var ext = user.avatar.indexOf("a_") === 0 ? "gif" : "png";
+        avatarUrl = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + "." + ext;
+      }
+      var displayName = user.global_name || user.username || "Discord User";
+      var data = {
+        displayName: displayName,
+        discord: user.username,
+        roblox: "",
+        avatarUrl: avatarUrl
+      };
+      saveLocalProfile(data);
+      authProfile = data;
+      if (!authUser) {
+        authUser = { uid: "discord_" + user.id, email: user.id + "@discord.com", displayName: displayName, isDiscord: true };
+      }
+      try { localStorage.setItem("bfx-login-method", "discord"); } catch (e) {}
+      startActiveUserTracking();
+      updateAuthUI();
+      showToast("Signed in as " + displayName);
     }).catch(function () {
-      showToast("Roblox sign-in network error");
+      showToast("Discord sign-in network error");
     });
   }
 
@@ -2430,8 +2393,7 @@
     });
 
     // Sign in / sign out
-    $("#signInBtn").addEventListener("click", signInWithGoogle);
-    $("#signInRobloxBtn").addEventListener("click", signInWithRoblox);
+    $("#signInBtn").addEventListener("click", signInWithDiscord);
     $("#signOutBtn").addEventListener("click", signOut);
 
     // Trade Board events
@@ -2440,7 +2402,6 @@
       var p = authProfile || getLocalProfile();
       var contact = [];
       if (p && p.discord) contact.push("Discord: " + p.discord);
-      if (p && p.roblox) contact.push("Roblox: " + p.roblox);
       $("#postContact").value = contact.join(" / ");
       updatePostCounts();
       renderPostFruitGrid();
@@ -2971,7 +2932,7 @@
     restorePrefs();
     bindEvents();
     initFirebase();
-    handleRobloxCallback();
+    handleDiscordCallback();
     startActiveUserTracking();
     render();
     populateFruitList();
