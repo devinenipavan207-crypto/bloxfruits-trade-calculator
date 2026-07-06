@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.bloxfruits-trade-calculator.com/sitemap.xml
