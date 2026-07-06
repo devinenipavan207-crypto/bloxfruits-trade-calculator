@@ -142,6 +142,10 @@
   /* ------------ Global Image Cache ------------ */
   var imgCache = {};
 
+  var FALLBACK_IMG_URLS = {
+    "Dragon_Token.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Dragon-Token_Icon.webp",
+  };
+
   function loadFruitImage(imgEl) {
     var fileName = imgEl.getAttribute('data-id');
     if (!fileName) return;
@@ -150,6 +154,8 @@
     var urls = [
       "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + fileName,
     ];
+    var fbk = FALLBACK_IMG_URLS[fileName];
+    if (fbk) urls.push(fbk);
     var attempt = 0;
     function tryNext() {
       if (attempt >= urls.length) {
@@ -370,7 +376,8 @@
     var animClass = "anim-" + (f.anim || "float");
     var color = rm.color || "#888";
     var letter = fruit.name.charAt(0).toUpperCase();
-    var imgUrl = "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + (f.img || "");
+    var imgF = f.img || "";
+    var imgUrl = FALLBACK_IMG_URLS[imgF] || "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + imgF;
     slot.style.setProperty("--card-glow", color);
     slot.innerHTML =
       '<div class="calc-slot-fruit ' + animClass + '" style="background:radial-gradient(circle at 50% 50%, ' + color + '22, transparent 70%)">' +
@@ -453,6 +460,8 @@
     var urls = [
       "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + fileName,
     ];
+    var fbk = FALLBACK_IMG_URLS[fileName];
+    if (fbk) urls.push(fbk);
     var attempt = 0;
     function tryNext() {
       if (attempt >= urls.length) { imgEl.removeAttribute("src"); return; }
@@ -561,6 +570,8 @@
       var urls = [
         "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + fruit.img,
       ];
+      var fbk = FALLBACK_IMG_URLS[fruit.img];
+      if (fbk) urls.push(fbk);
       var attempt = 0;
       function tryNext() {
         if (attempt >= urls.length) {
@@ -1211,7 +1222,7 @@
         var fruit = findFruit(i);
         var rm = fruit ? (RARITY_META[fruit.rarity] || {}) : {};
         var color = rm.color || "var(--accent)";
-        var imgUrl = fruit && fruit.img ? "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + fruit.img : "";
+        var imgUrl = fruit && fruit.img ? (FALLBACK_IMG_URLS[fruit.img] || "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + fruit.img) : "";
         var firstLetter = fruit ? fruit.name.charAt(0) : i.charAt(0);
         var val = fruit ? fruit.value.toLocaleString() : "";
         return '<div class="offer-fruit-card" style="--chip-color:' + color + '">' +
@@ -2605,7 +2616,7 @@
         var selClass = selected ? " post-fruit-selected" : "";
         var sideLabel = inOffer ? "OFFER" : (inWant ? "WANT" : "");
         var firstLetter = f.name.charAt(0);
-        var imgUrl = f.img ? "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + f.img : "";
+        var imgUrl = f.img ? (FALLBACK_IMG_URLS[f.img] || "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + f.img) : "";
         var card = document.createElement("div");
         card.className = "pf-card" + selClass;
         card.dataset.fruit = f.name;
@@ -2893,7 +2904,7 @@
         var btn = document.createElement("button");
         btn.className = "emoji-item fruit-item";
         btn.title = f._insert || f.name;
-        var url = "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + f.img;
+        var url = FALLBACK_IMG_URLS[f.img] || "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + f.img;
         btn.innerHTML = '<img src="' + url + '" alt="' + sanitize(f.name) + '" loading="lazy" referrerpolicy="no-referrer" />';
         btn.addEventListener("click", function () { insertAtCursor(f._insert || f.name); });
         grid.appendChild(btn);
