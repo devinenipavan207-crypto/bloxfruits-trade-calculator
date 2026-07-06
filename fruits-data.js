@@ -103,8 +103,7 @@ var FRUITS = [
   { name: "2x Money",         rarity: "gamepass", value: 240000000,  perm: 0, demand: "high",    trend: "stable", glow: "#f1c40f", anim: "pulse", img: "BadgeMoneyx2.png",       beli: 0,  robux: 450,  type: "Gamepass" },
   { name: "2x Boss Drops",    rarity: "gamepass", value: 140000000,  perm: 0, demand: "medium",  trend: "stable", glow: "#e74c3c", anim: "pulse", img: "BadgeBossDrops.png",     beli: 0,  robux: 350,  type: "Gamepass" },
   { name: "Fast Boats",       rarity: "gamepass", value: 140000000,  perm: 0, demand: "medium",  trend: "stable", glow: "#3498db", anim: "float", img: "BadgeBoats.png",         beli: 0,  robux: 350,  type: "Gamepass" },
-  { name: "Dragon Token",     rarity: "limited",  value: 3000000000, perm: 0, demand: "medium",  trend: "stable", glow: "#f59e0b", anim: "dragon", img: "Dragon_Token.png",        beli: 0,  robux: 0,   type: "Limited" },
-  { name: "Perm Dragon Token",rarity: "limited",  value: 6500000000, perm: 0, demand: "high",    trend: "stable", glow: "#ef4444", anim: "dragon", img: "Perm_Dragon_Token.png",    beli: 0,  robux: 0,   type: "Limited" }
+  { name: "Dragon Token",     rarity: "limited",  value: 3000000000, perm: 0, demand: "medium",  trend: "stable", glow: "#f59e0b", anim: "dragon", img: "Dragon_Token.png",        beli: 0,  robux: 0,   type: "Limited" }
 ];
 
 var FRUITS_DETAIL = {
@@ -197,8 +196,7 @@ var FRUITS_DETAIL = {
   "2x Money":          { desc: "Doubles Money earned from NPCs and quests. Does not affect chest loot.", moves: [], awakening: false, dropChance: "Purchasable gamepass (450 Robux)" },
   "2x Boss Drops":     { desc: "Doubles the chance for bosses to drop items like swords, accessories, etc.", moves: [], awakening: false, dropChance: "Purchasable gamepass (350 Robux)" },
   "Fast Boats":        { desc: "Grants access to Miracle (free, 2nd fastest) and The Sentinel (1000$ spawn, fastest boat).", moves: [], awakening: false, dropChance: "Purchasable gamepass (350 Robux)" },
-  "Dragon Token":      { desc: "Obtained from converting old physical Dragon after Update 24 rework. Can be exchanged for a random Mythical fruit. Tradeable.", moves: [], awakening: false, dropChance: "Converted from old physical Dragon (Update 24)" },
-  "Perm Dragon Token": { desc: "Obtained from converting old Permanent Dragon after Update 24 rework. Tradeable premium token. Highly sought after.", moves: [], awakening: false, dropChance: "Converted from old Permanent Dragon (Update 24)" }
+  "Dragon Token":      { desc: "Obtained from converting old physical Dragon after Update 24 rework. Can be exchanged for a random Mythical fruit.", moves: [], awakening: false, dropChance: "Converted from old physical Dragon (Update 24)" }
 };
 
 if (typeof module !== "undefined") {
