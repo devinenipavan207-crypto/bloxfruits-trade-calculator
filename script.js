@@ -270,7 +270,7 @@
     if (side.length >= 4) { showToast("Max 4 fruits per side"); return; }
     var fruit = fruits.filter(function (f) { return f.name === fruitName; })[0];
     var val = isPerm ? (fruit ? fruit.perm : 0) : (fruit ? fruit.value : 0);
-    side.push({ name: fruitName, value: val, perm: isPerm || false });
+    side.unshift({ name: fruitName, value: val, perm: isPerm || false });
     renderCalc();
     closePicker();
   }
@@ -2620,7 +2620,7 @@
           // Toggle on current side
           var idx = arr.indexOf(fruitName);
           if (idx !== -1) { arr.splice(idx, 1); }
-          else { arr.push(fruitName); }
+          else { arr.unshift(fruitName); }
           // Sync Offer pseudo-item with Open to Offers toggle
           if (fruitName === "Offer") {
             var oto = $("#openToOffersCheck");
