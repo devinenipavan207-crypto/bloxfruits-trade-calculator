@@ -288,6 +288,7 @@
   function renderCalc() {
     renderSlots("offer");
     renderSlots("request");
+    renderFruitPreview();
     $("#offerTotal").textContent = formatNumber(calcTotal(calcState.offer));
     $("#requestTotal").textContent = formatNumber(calcTotal(calcState.request));
 
@@ -2355,6 +2356,14 @@
       btn.addEventListener("click", function () { switchToTab(btn.dataset.tab); });
     });
 
+    // Tools promo banner
+    var tpb = $("#toolsPromoBanner");
+    if (tpb) tpb.addEventListener("click", function () { switchToTab("tools"); });
+
+    // Fruit preview "View all" link
+    var fpl = document.querySelector(".calc-fruit-preview-link");
+    if (fpl) fpl.addEventListener("click", function (e) { e.preventDefault(); switchToTab("fruits"); });
+
     // Mobile nav drawer
     $("#hamburgerBtn").addEventListener("click", function () {
       $("#navDrawer").classList.add("open");
@@ -3040,11 +3049,17 @@
         return;
       }
       grid.innerHTML = list.map(function (b) {
+        var imgUrl = "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + b.img;
         return '<div class="boss-card">' +
-          '<div class="boss-name">&#9876; ' + sanitize(b.name) + '</div>' +
-          '<div class="boss-detail">&#127775; Level ' + b.level + ' &middot; &#10084; ' + formatNumber(b.hp) + ' HP</div>' +
-          '<div class="boss-detail">&#128205; ' + sanitize(b.location) + '</div>' +
-          '<div class="boss-drops">&#128230; ' + sanitize(b.drops) + '</div>' +
+          '<div class="boss-card-inner">' +
+            '<div class="boss-img-wrap"><img src="' + imgUrl + '" alt="' + sanitize(b.name) + '" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.innerHTML=\'&#9876;\'" /></div>' +
+            '<div class="boss-card-info">' +
+              '<div class="boss-name">' + sanitize(b.name) + '</div>' +
+              '<div class="boss-detail">&#127775; Level ' + b.level + ' &middot; &#10084; ' + formatNumber(b.hp) + ' HP</div>' +
+              '<div class="boss-detail">&#128205; ' + sanitize(b.location) + '</div>' +
+              '<div class="boss-drops">&#128230; ' + sanitize(b.drops) + '</div>' +
+            '</div>' +
+          '</div>' +
         '</div>';
       }).join("");
     }
@@ -3090,15 +3105,73 @@
         return;
       }
       grid.innerHTML = list.map(function (s) {
+        var imgUrl = "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + s.img;
         return '<div class="spawn-card">' +
-          '<div class="spawn-fruit">' + sanitize(s.name) + '</div>' +
-          '<span class="spawn-island">&#127758; ' + sanitize(s.island) + '</span>' +
-          '<span class="spawn-area">&#128205; ' + sanitize(s.area) + ' (' + s.sea + ' sea)</span>' +
+          '<div class="spawn-card-inner">' +
+            '<div class="spawn-img-wrap"><img src="' + imgUrl + '" alt="' + sanitize(s.name) + '" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.textContent=\'&#127822;\'" /></div>' +
+            '<div>' +
+              '<div class="spawn-fruit">' + sanitize(s.name) + '</div>' +
+              '<span class="spawn-island">&#127758; ' + sanitize(s.island) + '</span>' +
+              '<span class="spawn-area">&#128205; ' + sanitize(s.area) + ' (' + s.sea + ' sea)</span>' +
+            '</div>' +
+          '</div>' +
         '</div>';
       }).join("");
     }
     $("#spawnSearch").addEventListener("input", function () { renderSpawns(this.value); });
     renderSpawns("");
+
+    // --- Swords ---
+    function renderSwords(query) {
+      var grid = $("#swordGrid");
+      if (!grid) return;
+      var list = SWORDS;
+      if (query) {
+        var q = query.toLowerCase();
+        list = list.filter(function (s) { return s.name.toLowerCase().indexOf(q) !== -1 || s.source.toLowerCase().indexOf(q) !== -1; });
+      }
+      if (list.length === 0) {
+        grid.innerHTML = '<div class="empty-state"><p>No weapons match your search.</p></div>';
+        return;
+      }
+      grid.innerHTML = list.map(function (s) {
+        var imgUrl = "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + s.img;
+        return '<div class="sword-card">' +
+          '<div class="sword-card-inner">' +
+            '<div class="sword-img-wrap"><img src="' + imgUrl + '" alt="' + sanitize(s.name) + '" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.textContent=\'&#9876;\'" /></div>' +
+            '<div>' +
+              '<div class="sword-name">' + sanitize(s.name) + '</div>' +
+              '<div class="sword-detail">&#127775; Level ' + s.levelReq + ' &middot; Mastery ' + s.masteryReq + ' &middot; ' + s.damage + '</div>' +
+              '<div class="sword-source">&#128205; ' + sanitize(s.source) + '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join("");
+    }
+    $("#swordSearch").addEventListener("input", function () { renderSwords(this.value); });
+    renderSwords("");
+  }
+
+  function renderFruitPreview() {
+    var grid = $("#fruitPreviewGrid");
+    if (!grid) return;
+    var sorted = fruits.slice().sort(function (a, b) { return b.value - a.value; });
+    var top = sorted.slice(0, 18);
+    grid.innerHTML = top.map(function (f) {
+      var rm = RARITY_META[f.rarity] || { color: "#888", icon: "◆" };
+      var firstLetter = f.name.charAt(0);
+      var letter = isTokenItem(f.name) ? (f.name.indexOf("Dragon") !== -1 ? "&#128009;" : "&#127775;") : firstLetter;
+      return '<div class="calc-fruit-preview-item" data-fruit="' + sanitize(f.name) + '" style="--card-glow:' + rm.color + '">' +
+        '<div class="fp-icon">' + letter + '</div>' +
+        '<div class="fp-name">' + sanitize(f.name) + '</div>' +
+        '<div class="fp-value">' + formatNumber(f.value) + '</div>' +
+      '</div>';
+    }).join("");
+    grid.querySelectorAll(".calc-fruit-preview-item").forEach(function (el) {
+      el.addEventListener("click", function () {
+        showDetail(el.dataset.fruit);
+      });
+    });
   }
 
   function renderTools() {

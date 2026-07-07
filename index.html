@@ -3,8 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>blox fruits trade calculator</title>
-  <meta name="description" content="Blox Fruits Trade Calculator — Live trade value calculator with trade board, community chat, and giveaways for Roblox Blox Fruits." />
+  <title>Blox Fruits Trade Calculator + Tools — Values, Bosses, Spawns, Builds</title>
+  <meta name="description" content="Blox Fruits trade calculator with fruit values, stat planner, damage calculator, XP planner, NPC boss guides, fruit spawn locations, build optimizer & sword list. Free Roblox Blox Fruits wiki & tools hub." />
+  <meta name="keywords" content="blox fruits, trade calculator, blox fruits values, blox fruits wiki, fruit spawn locations, blox fruits bosses, sword list, stat calculator, damage calc, build optimizer, roblox" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <link rel="canonical" href="https://www.bloxfruits-trade-calculator.com/" />
+  <meta property="og:title" content="Blox Fruits Trade Calculator — Values, Bosses, Spawns, Builds" />
+  <meta property="og:description" content="Free Blox Fruits tools: trade calculator, fruit values, stat planner, damage calculator, boss guides, spawn locations, and build optimizer." />
+  <meta property="og:url" content="https://www.bloxfruits-trade-calculator.com/" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Blox Fruits Trade Calculator + Tools" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Blox Fruits Trade Calculator",
+    "url": "https://www.bloxfruits-trade-calculator.com/",
+    "description": "Free trade calculator, fruit values, stat planner, damage calculator, boss guides, spawn locations, and build optimizer for Roblox Blox Fruits.",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "All"
+  }
+  </script>
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://apis.google.com https://pagead2.googlesyndication.com https://*.google.com http://localhost:* https://discord.com https://ep2.adtrafficquality.google https://*.adtrafficquality.google; style-src 'self' 'unsafe-inline'; img-src 'self' https: data: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.firebaseio.com https://*.firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.gstatic.com https://apis.google.com https://pagead2.googlesyndication.com http://localhost:* https://discord.com https://*.doubleclick.net https://ep1.adtrafficquality.google https://ep2.adtrafficquality.google https://*.adtrafficquality.google https://www.google.com https://www.google-analytics.com; frame-src https://accounts.google.com https://apis.google.com https://*.firebaseapp.com https://*.firebaseio.com https://googleads.g.doubleclick.net https://*.doubleclick.net https://www.google.com https://ep2.adtrafficquality.google https://*.adtrafficquality.google; object-src 'none'; base-uri 'self'; form-action 'self'" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups" />
@@ -155,6 +175,19 @@
              data-ad-format="fluid"
              data-ad-client="ca-pub-2633143245449460"
              data-ad-slot="2505405683"></ins>
+      </div>
+      <!-- Quick Fruit Values Preview -->
+      <div class="calc-fruit-preview">
+        <div class="calc-fruit-preview-header">
+          <h3>&#127822; Top Fruit Values</h3>
+          <a href="#" class="calc-fruit-preview-link" data-tab="fruits">View all fruits &rarr;</a>
+        </div>
+        <div class="calc-fruit-preview-grid" id="fruitPreviewGrid"></div>
+      </div>
+      <div class="tools-promo-banner" id="toolsPromoBanner">
+        <div class="tools-promo-icons">&#9878; &#128293; &#127942; &#128128; &#128737; &#127758; &#9876;</div>
+        <h3>Explore More Tools</h3>
+        <p>Stat planner, damage calculator, XP planner, boss guides, build optimizer, spawn locations &amp; sword list</p>
       </div>
     </div>
 
@@ -424,6 +457,18 @@
               <input type="search" id="spawnSearch" class="tool-input" placeholder="Search island or fruit..." />
             </div>
             <div class="spawn-grid" id="spawnGrid"></div>
+          </div>
+        </div>
+
+        <!-- Swords & Weapons -->
+        <div class="tool-card tool-card-wide" id="toolSwordList">
+          <div class="tool-card-header"><span class="tool-card-icon">&#9876;</span> Swords & Weapons</div>
+          <div class="tool-card-body">
+            <div class="search-wrap" style="margin-bottom:12px">
+              <span class="search-icon">&#128269;</span>
+              <input type="search" id="swordSearch" class="tool-input" placeholder="Search weapon..." />
+            </div>
+            <div class="sword-grid" id="swordGrid"></div>
           </div>
         </div>
       </div>
