@@ -2273,6 +2273,7 @@
     if (tab === "board") renderBoard($("#boardSearch").value);
     if (tab === "chat") loadChat();
     if (tab === "giveaways") renderGiveaways();
+    if (tab === "tools") renderTools();
     pushTabAds(target);
   }
 
@@ -2926,6 +2927,184 @@
     } catch (e) {}
   }
 
+  /* ------------ Tools System ------------ */
+  var TOOLS_INITIALIZED = false;
+
+  function initTools() {
+    if (TOOLS_INITIALIZED) return;
+    TOOLS_INITIALIZED = true;
+
+    // --- Stat Calculator ---
+    function updateStatCalc() {
+      var level = parseInt($("#statLevel").value) || 2600;
+      if (level < 1) level = 1;
+      if (level > MAX_LEVEL) level = MAX_LEVEL;
+      var total = level * STATS_PER_LEVEL;
+      $("#statTotalPoints").textContent = formatNumber(total);
+      var allocated = 0;
+      $$(".stat-slider").forEach(function (sl) {
+        allocated += parseInt(sl.value) || 0;
+      });
+      var remaining = total - allocated;
+      $("#statAllocated").textContent = formatNumber(allocated);
+      $("#statRemaining").textContent = formatNumber(remaining);
+      var valid = allocated <= total;
+      var ve = $("#statValid");
+      if (ve) {
+        ve.textContent = valid ? "&#10003; Valid" : "&#10007; Over limit!";
+        ve.style.color = valid ? "var(--success)" : "var(--danger)";
+      }
+    }
+    $("#statLevel").addEventListener("input", updateStatCalc);
+    $$(".stat-slider").forEach(function (sl) {
+      sl.addEventListener("input", function () {
+        var val = parseInt(sl.value) || 0;
+        sl.parentNode.querySelector(".stat-val-display").textContent = val;
+        updateStatCalc();
+      });
+    });
+    $$(".tool-preset").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var buildId = btn.dataset.build;
+        var tmpl;
+        for (var i = 0; i < BUILD_TEMPLATES.length; i++) {
+          if (BUILD_TEMPLATES[i].id === buildId) { tmpl = BUILD_TEMPLATES[i]; break; }
+        }
+        if (!tmpl) return;
+        $$(".stat-slider").forEach(function (sl) {
+          var statName = sl.closest(".stat-row").dataset.stat;
+          var val = tmpl.stats[statName] || 0;
+          var maxAllowed = parseInt(sl.max) || MAX_STAT;
+          if (val > maxAllowed) val = maxAllowed;
+          sl.value = val;
+          sl.parentNode.querySelector(".stat-val-display").textContent = val;
+        });
+        updateStatCalc();
+      });
+    });
+    updateStatCalc();
+
+    // --- Damage Calculator ---
+    $("#dmgCalcBtn").addEventListener("click", function () {
+      var base = parseInt($("#dmgBase").value) || 0;
+      var stat = $("#dmgStat").value;
+      var statVal = parseInt($("#dmgStatVal").value) || 0;
+      var mastery = parseInt($("#dmgMastery").value) || 1;
+      if (base <= 0) { showToast("Enter a base damage value"); return; }
+      var dmg = calcDamage(statVal, base, mastery);
+      $("#dmgResult").innerHTML = '<div class="dmg-result hit"><div class="dmg-number">' + formatNumber(dmg) + '</div><div class="dmg-label">Estimated damage with ' + stat + ' (' + statVal + ') + mastery ' + mastery + '</div></div>';
+    });
+
+    // --- XP Planner ---
+    $("#xpCalcBtn").addEventListener("click", function () {
+      var curLvl = parseInt($("#xpCurrentLevel").value) || 1;
+      var tgtLvl = parseInt($("#xpTargetLevel").value) || 2600;
+      var curXP = parseInt($("#xpCurrentXP").value) || 0;
+      if (curLvl < 1) curLvl = 1;
+      if (tgtLvl > MAX_LEVEL) tgtLvl = MAX_LEVEL;
+      if (curLvl >= tgtLvl) { showToast("Target level must be higher than current"); return; }
+      var xpNeeded = 0;
+      var startIdx = curLvl - 1;
+      var endIdx = tgtLvl - 1;
+      for (var i = startIdx; i < endIdx; i++) {
+        xpNeeded += XP_TABLE[i].xpToNext;
+      }
+      xpNeeded -= curXP;
+      if (xpNeeded < 0) xpNeeded = 0;
+      var totalXPCur = XP_TABLE[curLvl - 1].totalXP;
+      var totalXPTgt = XP_TABLE[tgtLvl - 1].totalXP;
+      var progress = (totalXPCur + curXP) / totalXPTgt * 100;
+      if (progress > 100) progress = 100;
+      var totalToTgt = totalXPTgt - (totalXPCur + curXP);
+      if (totalToTgt < 0) totalToTgt = 0;
+      $("#xpResult").innerHTML =
+        '<div class="xp-result-card">' +
+          '<div class="xp-stat"><span>XP needed</span><strong>' + formatNumber(xpNeeded) + '</strong></div>' +
+          '<div class="xp-stat"><span>Total XP to target</span><strong>' + formatNumber(totalToTgt) + '</strong></div>' +
+          '<div class="xp-stat"><span>Progress</span><strong>' + progress.toFixed(1) + '%</strong></div>' +
+          '<div class="xp-stat" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)"><span>From Lv.' + curLvl + ' to Lv.' + tgtLvl + '</span><strong>' + (tgtLvl - curLvl) + ' levels</strong></div>' +
+        '</div>';
+    });
+
+    // --- Boss Guides ---
+    function renderBosses(query) {
+      var grid = $("#bossGrid");
+      if (!grid) return;
+      var list = BOSSES;
+      if (query) {
+        var q = query.toLowerCase();
+        list = list.filter(function (b) { return b.name.toLowerCase().indexOf(q) !== -1 || b.location.toLowerCase().indexOf(q) !== -1; });
+      }
+      if (list.length === 0) {
+        grid.innerHTML = '<div class="empty-state"><p>No bosses match your search.</p></div>';
+        return;
+      }
+      grid.innerHTML = list.map(function (b) {
+        return '<div class="boss-card">' +
+          '<div class="boss-name">&#9876; ' + sanitize(b.name) + '</div>' +
+          '<div class="boss-detail">&#127775; Level ' + b.level + ' &middot; &#10084; ' + formatNumber(b.hp) + ' HP</div>' +
+          '<div class="boss-detail">&#128205; ' + sanitize(b.location) + '</div>' +
+          '<div class="boss-drops">&#128230; ' + sanitize(b.drops) + '</div>' +
+        '</div>';
+      }).join("");
+    }
+    $("#bossSearch").addEventListener("input", function () { renderBosses(this.value); });
+    renderBosses("");
+
+    // --- Build Optimizer ---
+    function renderBuilds() {
+      var container = $("#buildRecs");
+      if (!container) return;
+      container.innerHTML = '<div class="build-recs">' + RECOMMENDED_BUILDS.map(function (b) {
+        var statsHtml = "";
+        for (var key in b.stats) {
+          if (b.stats[key] > 0) {
+            statsHtml += '<span>' + key + ': ' + formatNumber(b.stats[key]) + '</span>';
+          }
+        }
+        return '<div class="build-card">' +
+          '<div class="build-card-header">' +
+            '<span class="build-card-name">' + sanitize(b.name) + '</span>' +
+            '<span class="build-card-type">' + sanitize(b.type) + '</span>' +
+          '</div>' +
+          '<div class="build-card-fruit">&#127822; ' + sanitize(b.fruit) + '</div>' +
+          '<div class="build-card-stats">' + statsHtml + '</div>' +
+          '<div class="build-card-desc">' + sanitize(b.desc) + '</div>' +
+          '<div class="build-card-desc" style="color:var(--accent-2);margin-top:4px">&#9876; ' + sanitize(b.weapons) + ' &middot; &#128170; ' + sanitize(b.fighting) + '</div>' +
+        '</div>';
+      }).join("") + '</div>';
+    }
+    renderBuilds();
+
+    // --- Spawn Locations ---
+    function renderSpawns(query) {
+      var grid = $("#spawnGrid");
+      if (!grid) return;
+      var list = FRUIT_SPAWN_LOCATIONS;
+      if (query) {
+        var q = query.toLowerCase();
+        list = list.filter(function (s) { return s.name.toLowerCase().indexOf(q) !== -1 || s.island.toLowerCase().indexOf(q) !== -1; });
+      }
+      if (list.length === 0) {
+        grid.innerHTML = '<div class="empty-state"><p>No spawns match your search.</p></div>';
+        return;
+      }
+      grid.innerHTML = list.map(function (s) {
+        return '<div class="spawn-card">' +
+          '<div class="spawn-fruit">' + sanitize(s.name) + '</div>' +
+          '<span class="spawn-island">&#127758; ' + sanitize(s.island) + '</span>' +
+          '<span class="spawn-area">&#128205; ' + sanitize(s.area) + ' (' + s.sea + ' sea)</span>' +
+        '</div>';
+      }).join("");
+    }
+    $("#spawnSearch").addEventListener("input", function () { renderSpawns(this.value); });
+    renderSpawns("");
+  }
+
+  function renderTools() {
+    initTools();
+  }
+
   function init() {
     var yearEl = $("#year");
     if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -2938,6 +3117,7 @@
     populateFruitList();
     renderCalc();
     renderBoard("");
+    initTools();
     setInterval(renderUpdated, 30000);
     setInterval(updateActiveCount, 15000);
     setTimeout(updateActiveCount, 2000);

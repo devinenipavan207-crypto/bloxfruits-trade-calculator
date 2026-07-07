@@ -88,6 +88,7 @@
       <button class="nav-drawer-btn" data-tab="chat">&#128172; Community Chat</button>
       <button class="nav-drawer-btn" data-tab="fruits">&#127822; Fruit Values</button>
       <button class="nav-drawer-btn" data-tab="giveaways">&#127881; Giveaways</button>
+      <button class="nav-drawer-btn" data-tab="tools">&#128295; Tools</button>
       <hr class="nav-drawer-divider" />
       <button class="nav-drawer-btn nav-drawer-link" id="drawerPrivacyLink">&#128220; Privacy Policy</button>
       <button class="nav-drawer-btn nav-drawer-link" id="drawerTosLink">&#128220; Terms of Service</button>
@@ -103,6 +104,7 @@
       <button class="tab-btn" data-tab="chat">&#128172; Community Chat</button>
       <button class="tab-btn" data-tab="fruits">&#127822; Fruit Values</button>
       <button class="tab-btn" data-tab="giveaways">&#127881; Giveaways</button>
+      <button class="tab-btn" data-tab="tools">&#128295; Tools</button>
     </div>
 
     <!-- Calculator View -->
@@ -271,6 +273,161 @@
         <div class="empty-emoji">&#127881;</div>
         <p>No giveaways yet. Host one!</p>
       </div>
+      <div class="tab-ad" style="margin:16px auto;width:100%;max-width:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.1);border-radius:8px;padding:8px;min-height:60px">
+        <ins class="adsbygoogle"
+             style="display:block;text-align:center"
+             data-ad-layout="in-article"
+             data-ad-format="fluid"
+             data-ad-client="ca-pub-2633143245449460"
+             data-ad-slot="2505405683"></ins>
+      </div>
+    </div>
+
+    <!-- Tools View -->
+    <div id="toolsView" class="tab-content hidden">
+      <div class="tools-hero">
+        <h2 class="tools-title">&#128295; Game Tools</h2>
+        <p class="tools-sub">Stat planner, damage calculator, boss guides & more</p>
+      </div>
+
+      <div class="tools-grid">
+        <!-- Stat Points Calculator -->
+        <div class="tool-card" id="toolStatCalc">
+          <div class="tool-card-header"><span class="tool-card-icon">&#9878;</span> Stat Points Calculator</div>
+          <div class="tool-card-body">
+            <div class="tool-form-row">
+              <label>Level (1-2600)</label>
+              <input type="number" id="statLevel" class="tool-input" value="2600" min="1" max="2600" />
+            </div>
+            <div class="tool-form-row">
+              <label>Total Points: <strong id="statTotalPoints">7800</strong></label>
+            </div>
+            <div class="stat-sliders">
+              <div class="stat-row" data-stat="Melee">
+                <span class="stat-name">Melee</span>
+                <input type="range" class="stat-slider" min="0" max="2600" value="0" />
+                <span class="stat-val-display">0</span>
+              </div>
+              <div class="stat-row" data-stat="Defense">
+                <span class="stat-name">Defense</span>
+                <input type="range" class="stat-slider" min="0" max="2600" value="800" />
+                <span class="stat-val-display">800</span>
+              </div>
+              <div class="stat-row" data-stat="Sword">
+                <span class="stat-name">Sword</span>
+                <input type="range" class="stat-slider" min="0" max="2600" value="0" />
+                <span class="stat-val-display">0</span>
+              </div>
+              <div class="stat-row" data-stat="Gun">
+                <span class="stat-name">Gun</span>
+                <input type="range" class="stat-slider" min="0" max="2600" value="0" />
+                <span class="stat-val-display">0</span>
+              </div>
+              <div class="stat-row" data-stat="Fruit">
+                <span class="stat-name">Fruit</span>
+                <input type="range" class="stat-slider" min="0" max="2600" value="2600" />
+                <span class="stat-val-display">2600</span>
+              </div>
+            </div>
+            <div class="stat-summary">
+              <span>Allocated: <strong id="statAllocated">3400</strong></span>
+              <span>Remaining: <strong id="statRemaining">4400</strong></span>
+              <span id="statValid" class="stat-valid" style="color:var(--danger)">Over limit!</span>
+            </div>
+            <div class="tool-preset-btns">
+              <button class="chip tool-preset" data-build="sword">🗡️ Sword Main</button>
+              <button class="chip tool-preset" data-build="fruit">🌀 Fruit Main</button>
+              <button class="chip tool-preset" data-build="gun">🔫 Gun Main</button>
+              <button class="chip tool-preset" data-build="hybrid">⚖️ Hybrid</button>
+              <button class="chip tool-preset" data-build="tank">🛡️ Tank</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Damage Calculator -->
+        <div class="tool-card" id="toolDamageCalc">
+          <div class="tool-card-header"><span class="tool-card-icon">&#128293;</span> Damage Calculator</div>
+          <div class="tool-card-body">
+            <div class="tool-form-row">
+              <label>Base Damage</label>
+              <input type="number" id="dmgBase" class="tool-input" value="1000" min="1" />
+            </div>
+            <div class="tool-form-row">
+              <label>Stat Used</label>
+              <select id="dmgStat" class="tool-input">
+                <option value="Sword">Sword</option>
+                <option value="Gun">Gun</option>
+                <option value="Fruit" selected>Fruit</option>
+                <option value="Melee">Melee</option>
+              </select>
+            </div>
+            <div class="tool-form-row">
+              <label>Stat Points</label>
+              <input type="number" id="dmgStatVal" class="tool-input" value="2600" min="0" max="2600" />
+            </div>
+            <div class="tool-form-row">
+              <label>Mastery (1-600)</label>
+              <input type="number" id="dmgMastery" class="tool-input" value="350" min="1" max="600" />
+            </div>
+            <button class="form-submit" id="dmgCalcBtn" style="margin-top:12px">Calculate Damage</button>
+            <div class="dmg-result" id="dmgResult" style="margin-top:12px;text-align:center;font-size:20px;font-weight:700"></div>
+          </div>
+        </div>
+
+        <!-- XP & Level Planner -->
+        <div class="tool-card" id="toolXPPlanner">
+          <div class="tool-card-header"><span class="tool-card-icon">&#127942;</span> XP & Level Planner</div>
+          <div class="tool-card-body">
+            <div class="tool-form-row">
+              <label>Current Level</label>
+              <input type="number" id="xpCurrentLevel" class="tool-input" value="1" min="1" max="2599" />
+            </div>
+            <div class="tool-form-row">
+              <label>Target Level</label>
+              <input type="number" id="xpTargetLevel" class="tool-input" value="2600" min="2" max="2600" />
+            </div>
+            <div class="tool-form-row">
+              <label>Current XP</label>
+              <input type="number" id="xpCurrentXP" class="tool-input" value="0" min="0" />
+            </div>
+            <button class="form-submit" id="xpCalcBtn" style="margin-top:12px">Calculate XP Needed</button>
+            <div id="xpResult" style="margin-top:12px"></div>
+          </div>
+        </div>
+
+        <!-- NPC Boss Guides -->
+        <div class="tool-card tool-card-wide" id="toolBossGuides">
+          <div class="tool-card-header"><span class="tool-card-icon">&#128128;</span> NPC Boss Guides</div>
+          <div class="tool-card-body">
+            <div class="search-wrap" style="margin-bottom:12px">
+              <span class="search-icon">&#128269;</span>
+              <input type="search" id="bossSearch" class="tool-input" placeholder="Search boss..." />
+            </div>
+            <div id="bossGrid" class="boss-grid"></div>
+          </div>
+        </div>
+
+        <!-- Build Optimizer -->
+        <div class="tool-card tool-card-wide" id="toolBuildOpt">
+          <div class="tool-card-header"><span class="tool-card-icon">&#128737;</span> Build Optimizer</div>
+          <div class="tool-card-body">
+            <div class="build-recommendations" id="buildRecs"></div>
+          </div>
+        </div>
+
+        <!-- Fruit Spawn Locations -->
+        <div class="tool-card tool-card-wide" id="toolSpawnMap">
+          <div class="tool-card-header"><span class="tool-card-icon">&#127758;</span> Fruit Spawn Locations</div>
+          <div class="tool-card-body">
+            <div class="search-wrap" style="margin-bottom:12px">
+              <span class="search-icon">&#128269;</span>
+              <input type="search" id="spawnSearch" class="tool-input" placeholder="Search island or fruit..." />
+            </div>
+            <div class="spawn-grid" id="spawnGrid"></div>
+          </div>
+        </div>
+      </div>
+
       <div class="tab-ad" style="margin:16px auto;width:100%;max-width:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.1);border-radius:8px;padding:8px;min-height:60px">
         <ins class="adsbygoogle"
              style="display:block;text-align:center"
@@ -692,6 +849,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
   <script src="fruits-data.js"></script>
+  <script src="tools-data.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
