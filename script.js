@@ -144,6 +144,49 @@
 
   var FALLBACK_IMG_URLS = {
     "Dragon_Token.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Dragon-Token_Icon.webp",
+    "Kitsune.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Kitsune_Icon.webp",
+    "Yeti.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/12/Yeti_Icon.webp",
+    "Gas.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/11/Gas_Icon.webp",
+    "Dragon.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Dragon_Icon.webp",
+    "Leopard.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Leopard_Icon.webp",
+    "Trex.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Trex_Icon.webp",
+    "Mammoth.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Mammoth_Icon.webp",
+    "Venom.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Venom_Icon.webp",
+    "Spirit.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Spirit_Icon.webp",
+    "Dough.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Dough_Icon.webp",
+    "Control.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Control_Icon.webp",
+    "Shadow.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Shadow_Icon.webp",
+    "Dark.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Dark_Icon.webp",
+    "Rumble.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Rumble_Icon.webp",
+    "Flame.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Flame_Icon.webp",
+    "Light.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Light_Icon.webp",
+    "Phoenix.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Phoenix_Icon.webp",
+    "Buddha.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Buddha_Icon.webp",
+    "Magma.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Magma_Icon.webp",
+    "Ice.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Ice_Icon.webp",
+    "Sand.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Sand_Icon.webp",
+    "Gravity.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Gravity_Icon.webp",
+    "Soul.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Soul_Icon.webp",
+    "Love.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Love_Icon.webp",
+    "Portal.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Portal_Icon.webp",
+    "Blizzard.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Blizzard_Icon.webp",
+    "Pain.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Pain_Icon.webp",
+    "Quake.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Quake_Icon.webp",
+    "String.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/String_Icon.webp",
+    "Diamond.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Diamond_Icon.webp",
+    "Ghost.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Ghost_Icon.webp",
+    "Spike.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Spike_Icon.webp",
+    "Rubber.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Rubber_Icon.webp",
+    "Falcon.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Falcon_Icon.webp",
+    "Barrier.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Barrier_Icon.webp",
+    "Smoke.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Smoke_Icon.webp",
+    "Water.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Water_Icon.webp",
+    "Chop.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Chop_Icon.webp",
+    "Spin.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Spin_Icon.webp",
+    "Bomb.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Bomb_Icon.webp",
+    "Spring.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Spring_Icon.webp",
+    "Kilo.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Kilo_Icon.webp",
+    "Rocket.png": "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Rocket_Icon.webp",
   };
 
   function loadFruitImage(imgEl) {
@@ -151,11 +194,10 @@
     if (!fileName) return;
     var fb = imgEl.nextElementSibling;
     if (fb) fb.style.display = 'flex';
-    var urls = [
-      "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + fileName,
-    ];
     var fbk = FALLBACK_IMG_URLS[fileName];
-    if (fbk) urls.push(fbk);
+    var urls = fbk
+      ? [fbk, "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + fileName]
+      : ["https://blox-fruits.fandom.com/wiki/Special:FilePath/" + fileName];
     var attempt = 0;
     function tryNext() {
       if (attempt >= urls.length) {
@@ -458,11 +500,10 @@
 
   function loadPickerImage(imgEl, fileName) {
     if (!fileName) return;
-    var urls = [
-      "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + fileName,
-    ];
     var fbk = FALLBACK_IMG_URLS[fileName];
-    if (fbk) urls.push(fbk);
+    var urls = fbk
+      ? [fbk, "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + fileName]
+      : ["https://blox-fruits.fandom.com/wiki/Special:FilePath/" + fileName];
     var attempt = 0;
     function tryNext() {
       if (attempt >= urls.length) { imgEl.removeAttribute("src"); return; }
@@ -568,11 +609,10 @@
     bgEl.style.background = "radial-gradient(circle at 50% 50%, " + rm.color + "33, transparent 70%)";
 
     if (fruit.img) {
-      var urls = [
-        "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + fruit.img,
-      ];
       var fbk = FALLBACK_IMG_URLS[fruit.img];
-      if (fbk) urls.push(fbk);
+      var urls = fbk
+        ? [fbk, "https://blox-fruits.fandom.com/wiki/Special:FilePath/" + fruit.img]
+        : ["https://blox-fruits.fandom.com/wiki/Special:FilePath/" + fruit.img];
       var attempt = 0;
       function tryNext() {
         if (attempt >= urls.length) {
@@ -3162,12 +3202,17 @@
       var firstLetter = f.name.charAt(0);
       var letter = isTokenItem(f.name) ? (f.name.indexOf("Dragon") !== -1 ? "&#128009;" : "&#127775;") : firstLetter;
       return '<div class="calc-fruit-preview-item" data-fruit="' + sanitize(f.name) + '" style="--card-glow:' + rm.color + '">' +
-        '<div class="fp-icon">' + letter + '</div>' +
+        '<div class="fp-img-wrap">' +
+          '<img class="fp-img" alt="' + sanitize(f.name) + '" data-id="' + f.img + '" loading="lazy" referrerpolicy="no-referrer" />' +
+          '<div class="fp-fallback">' + letter + '</div>' +
+        '</div>' +
         '<div class="fp-name">' + sanitize(f.name) + '</div>' +
         '<div class="fp-value">' + formatNumber(f.value) + '</div>' +
       '</div>';
     }).join("");
     grid.querySelectorAll(".calc-fruit-preview-item").forEach(function (el) {
+      var img = el.querySelector(".fp-img");
+      if (img) loadFruitImage(img);
       el.addEventListener("click", function () {
         showDetail(el.dataset.fruit);
       });

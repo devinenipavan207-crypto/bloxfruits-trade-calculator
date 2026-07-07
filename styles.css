@@ -2284,7 +2284,21 @@ body.theme-light .site-header { background: rgba(240,239,250,0.7); backdrop-filt
 .calc-fruit-preview-item:hover { border-color: var(--accent); transform: translateY(-1px); }
 .calc-fruit-preview-item .fp-name { font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .calc-fruit-preview-item .fp-value { font-size: 12px; color: var(--accent); font-weight: 700; }
-.calc-fruit-preview-item .fp-icon { font-size: 24px; line-height: 1; margin-bottom: 2px; filter: drop-shadow(0 2px 8px var(--card-glow, rgba(249,115,22,0.4))); }
+.calc-fruit-preview-item .fp-img-wrap {
+  width: 44px; height: 44px; border-radius: 8px; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle at 50% 50%, var(--card-glow, rgba(249,115,22,0.1)), transparent);
+  position: relative;
+}
+.calc-fruit-preview-item .fp-img {
+  width: 40px; height: 40px; object-fit: contain;
+  filter: drop-shadow(0 2px 6px var(--card-glow, rgba(249,115,22,0.3)));
+}
+.calc-fruit-preview-item .fp-fallback {
+  position: absolute; inset: 0; display: flex;
+  align-items: center; justify-content: center;
+  font-size: 18px; color: var(--text-dim);
+}
 
 /* ========== SWORD GRID ========== */
 .sword-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 10px; }
