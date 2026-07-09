@@ -2315,6 +2315,7 @@
     if (tab === "chat") loadChat();
     if (tab === "giveaways") renderGiveaways();
     if (tab === "tools") renderTools();
+    if (tab === "guides") renderGuides();
     pushTabAds(target);
   }
 
@@ -3215,6 +3216,20 @@
       if (img) loadFruitImage(img);
       el.addEventListener("click", function () {
         showDetail(el.dataset.fruit);
+      });
+    });
+  }
+
+  function renderGuides() {
+    $$(".guide-header").forEach(function (hdr) {
+      hdr.addEventListener("click", function () {
+        var body = hdr.nextElementSibling;
+        if (!body) return;
+        var isOpen = body.classList.contains("guide-open");
+        body.classList.toggle("guide-open");
+        hdr.classList.toggle("guide-open");
+        var arrow = hdr.querySelector(".guide-arrow");
+        if (arrow) arrow.innerHTML = isOpen ? "&#9660;" : "&#9650;";
       });
     });
   }
